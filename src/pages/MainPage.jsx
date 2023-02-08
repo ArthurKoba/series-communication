@@ -3,7 +3,11 @@ import {Container} from "react-bootstrap";
 import ChartList from "../components/charts/ChartList";
 
 const MainPage = () => {
-    const [charts, setChart] = useState([1])
+
+    const [charts, setChart] = useState([
+        {name: "Chart1", labels: ["123"],  data: [1]}
+    ])
+
 
     return (
         <Container fluid>
