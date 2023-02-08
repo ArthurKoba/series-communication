@@ -1,12 +1,15 @@
-import React from 'react';
-import ChartItem from "../components/charts/ChartItem";
+import React, {useState} from 'react';
+import {Container} from "react-bootstrap";
+import ChartList from "../components/charts/ChartList";
 
 const MainPage = () => {
+    const [charts, setChart] = useState([1])
+
     return (
-        <div>
-            <h1>Главная страница</h1>
-            <ChartItem></ChartItem>
-        </div>
+        <Container fluid>
+            <h1 className="text-center">Главная страница</h1>
+            <ChartList charts={charts}></ChartList>
+        </Container>
     );
 };
 
