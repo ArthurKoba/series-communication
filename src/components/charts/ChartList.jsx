@@ -6,7 +6,7 @@ const ChartList = ({charts}) => {
     return (
         <Container fluid>
             <Row>
-                {charts.map((chart) => <ChartItem chart={chart}></ChartItem>)}
+                {charts.map((chart, i) => <ChartItem key={i} chart={chart}></ChartItem>)}
             </Row>
         </Container>
     );
