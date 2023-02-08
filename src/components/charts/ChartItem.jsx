@@ -21,7 +21,7 @@ ChartJS.register(
     Legend
 );
 
-const ChartItem = () => {
+const ChartItem = ({chart}) => {
     const options = {
         responsive: true,
         plugins: {
@@ -30,31 +30,13 @@ const ChartItem = () => {
             },
             title: {
                 display: true,
-                text: 'Chart.js Bar Chart',
+                text: chart.name,
             },
         },
     }
 
-    const labels =  ['January', 'February', 'March', 'April', 'May', 'June', 'July']
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: labels.map((v, i) => i),
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
-            {
-                label: 'Dataset 2',
-                data: labels.map((v, i) => i),
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-        ],
-    }
-
     return (
-        <Bar options={options} data={data}></Bar>
+        <Bar options={options} data={chart.data}></Bar>
     )
 };
 
