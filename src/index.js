@@ -7,6 +7,8 @@ import App from './App';
 import {
     Chart as ChartJS,
     CategoryScale,
+    LineElement,
+    PointElement,
     LinearScale,
     BarElement,
     Title,
@@ -16,6 +18,8 @@ import {
 
 ChartJS.register(
     CategoryScale,
+    LineElement,
+    PointElement,
     LinearScale,
     BarElement,
     Title,
