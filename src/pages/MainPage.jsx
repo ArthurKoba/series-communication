@@ -1,27 +1,34 @@
-import React, {useState} from 'react';
-import {Container} from "react-bootstrap";
-import ChartList from "../components/charts/ChartList";
+import React, {useEffect, useState} from 'react';
+import {Button, Container} from "react-bootstrap";
+import ChartItem from "../components/charts/ChartItem";
 
 const MainPage = () => {
     const [counter, setCounter] = useState(1)
-    const [data, setData] = useState([counter])
     const [labels, setLabels] = useState(["123"])
-    const [charts, setChart] = useState([
-        {name: "Chart1", labels: labels,  data: data}
-    ])
 
-    const updateData = () => {
+    const [chart, setChart] = useState({name: "chart", data: [], type: "line"})
+
+
+
+    useEffect(() => {
+        // console.log(counter)
+    }, [chart])
+
+    function updateData () {
         setCounter(counter + 1)
-        setData([counter])
-        setChart([{name: "Chart1", labels: labels,  data: data}])
-    }
+        setChart({...chart, data: [counter]})
 
+    }
 
     return (
         <Container fluid>
-            <h1 className="text-center">Главная страница</h1>
-            <button onClick={updateData}>test</button>
-            <ChartList charts={charts}></ChartList>
+            <Container fluid className="d-flex row">
+                <h1 className="text-center">Главная страница</h1>
+
+                {/*<ChartList charts={charts}></ChartList>*/}
+                <ChartItem chart={chart} counter={counter}></ChartItem>
+                <Button onClick={updateData} className="col-6 ml-auto">test</Button>
+            </Container>
         </Container>
     );
 };
