@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Chart} from 'react-chartjs-2';
 import {Button, Container} from "react-bootstrap";
 import Select from "../UI/select/Select";
@@ -8,25 +8,46 @@ const changeTypeOptions = [
     {name: "Line", value: "line"}, {name: "Bar", value: "bar"}
 ]
 
+const genData = (index, length) => {
+    let data = []
+    for (let i = index; i < index + length; i++) {
+        data.push(Math.sin(i))
+    }
+    return data
+}
+
 class ChartItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             type: props.chart?.type? props.chart.type: "bar",
             name: props.chart?.name? props.chart.name : "Some chart",
-            data: props.chart?.data? props.chart.data: [],
+            data: props.chart?.data? props.chart.data : [],
             labels: props.chart?.labels? props.chart.labels : [],
-            scales: {y: {min: null, max: null}}
+            scales: {y: {min: null, max: null}},
+            genActive: false,
+            counter: 0,
         }
         this.resetScales = this.resetScales.bind(this)
         this.setData = this.setData.bind(this)
-        this.updateData = this.updateData.bind(this)
         this.changeType = this.changeType.bind(this)
     }
 
+    componentDidUpdate() {
+        if (this.state.genActive) setTimeout(() => {
+            let newData = {data: genData(this.state.counter, 1024), counter: this.state.counter + 1}
+            if (this.state.labels.length !== newData.data.length) {
+                newData.labels = newData.data.map((v, i) => i+1)
+            }
+            console.log(Date.now())
+            this.setState(newData)
+            }, 10)
+    }
+
     resetScales() {
-        let min = 0
-        let max = 1
+        let min = null
+        let max = null
+        // console.log(this.state.data)
         if (this.state.data.length) {
             min = this.state.data.reduce((x, y) => Math.min(x, y))
             max = this.state.data.reduce((x, y) => Math.max(x, y))
@@ -35,19 +56,11 @@ class ChartItem extends React.Component {
     }
 
     setData() {
-        this.updateData([1,2,3])
+        this.setState({genActive: !this.state.genActive})
     }
 
     changeType(type) {
         this.setState({type: type})
-    }
-
-    updateData(data) {
-        let newData = {data: data}
-        if (this.state.labels.length !== data.length) {
-            newData.labels = data.map((v, i) => i+1)
-        }
-        this.setState(newData)
     }
 
     render() {
@@ -55,6 +68,15 @@ class ChartItem extends React.Component {
             responsive: true,
             animation: {
                 duration: 0
+            },
+            elements: {
+                point: {
+                    radius: 0,
+                },
+                line: {
+                    borderColor: "#F00",
+                    borderWidth: 1,
+                }
             },
             plugins: {
                 legend: {
