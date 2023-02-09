@@ -12,8 +12,8 @@ class ChartManager {
         )
     }
 
-    increment() {
-        this.count += 1
+    deleteChart(chart) {
+        this.charts = this.charts.filter(c => c !== chart)
     }
 }
 
