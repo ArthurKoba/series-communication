@@ -6,6 +6,7 @@ import Content from "./pages/layout/Content";
 import Footer from "./pages/layout/Footer";
 import {observer} from "mobx-react-lite";
 import designStorage from "./store/designStorage";
+import SerialPorts from "./pages/SerialPorts";
 
 
 
@@ -16,16 +17,17 @@ const App = observer(() => {
     return (
         <div className={classes}>
             <div className="wrapper">
-                <Navbar></Navbar>
-                <Sidebar></Sidebar>
-                <Content>
-                    <BrowserRouter>
+                <BrowserRouter>
+                    <Navbar></Navbar>
+                    <Sidebar></Sidebar>
+                    <Content>
                         <Routes>
                             <Route path="/" element={<MainPage/>}/>
+                            <Route path="/serial" element={<SerialPorts/>}/>
                         </Routes>
-                    </BrowserRouter>
-                </Content>
-                <Footer></Footer>
+                    </Content>
+                    <Footer></Footer>
+                </BrowserRouter>
             </div>
         </div>
     );

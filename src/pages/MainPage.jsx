@@ -1,15 +1,17 @@
 import React from 'react';
-import {Container} from "react-bootstrap";
 
 import ChartList from "../components/charts/ChartList";
 
 
 const MainPage = () => {
     return (
-        <Container fluid className="d-flex row">
+        <div className="d-flex row container-fluid justify-content-center">
             <h1 className="text-center">Главная страница</h1>
-            {/*<ChartList></ChartList>*/}
-        </Container>
+            <div className="col-6">
+                <ChartList></ChartList>
+            </div>
+
+        </div>
     );
 };
 
