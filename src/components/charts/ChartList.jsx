@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {observer} from "mobx-react-lite";
 import {Container, Row} from "react-bootstrap";
+
+import chartManagerStorage from "../../store/chartManagerStorage";
 import ChartItem from "./ChartItem";
 
-const ChartList = ({charts}) => {
+const ChartList = observer(() => {
     return (
         <Container fluid>
             <Row>
-                {charts.map((chart, i) => <ChartItem key={i} chart={chart}></ChartItem>)}
+                {
+                    chartManagerStorage.charts.map((element, i) =>
+                        <ChartItem key={i} chartStorage={element}></ChartItem>
+                    )
+                }
             </Row>
         </Container>
     );
-};
+});
 
 export default ChartList;
