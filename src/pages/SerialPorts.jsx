@@ -1,6 +1,7 @@
 import React from 'react';
-import serialPortsStorage from "../store/serialPortsStorage";
+
 import SerialPortList from "../components/serial-ports/SerialPortList";
+import serialManagerStorage from "../store/serialManagerStorage";
 
 const SerialPorts = () => {
     if (!navigator.serial) {
@@ -22,7 +23,7 @@ const SerialPorts = () => {
         <div className="text-center">
             <h1>Serial ports</h1>
 
-            <button className="btn btn-primary" onClick={() => serialPortsStorage.getPorts()}>
+            <button className="btn btn-primary" onClick={() => serialManagerStorage.getPorts()}>
                 Add System Port
             </button>
             <SerialPortList></SerialPortList>

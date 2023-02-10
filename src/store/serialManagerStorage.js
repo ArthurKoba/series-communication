@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
+import SerialPortStorage from "./serialPortStorage";
 
-class SerialPortStorage {
+class SerialManagerStorage {
     availablePorts = []
 
     constructor() {
@@ -10,7 +11,8 @@ class SerialPortStorage {
     }
 
     loadPorts(ports) {
-        this.availablePorts = [...ports]
+        this.availablePorts = [ports.map((portObject, i) => new SerialPortStorage(portObject, i))]
+        console.log(ports)
     }
 
     swapDarkMode() {
@@ -22,4 +24,4 @@ class SerialPortStorage {
     }
 }
 
-export default new SerialPortStorage();
+export default new SerialManagerStorage();
