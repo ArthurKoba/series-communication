@@ -11,8 +11,7 @@ class SerialManagerStorage {
     }
 
     loadPorts(ports) {
-        this.availablePorts = [ports.map((portObject, i) => new SerialPortStorage(portObject, i))]
-        console.log(ports)
+        this.availablePorts = ports.map((portObject) => new SerialPortStorage(portObject))
     }
 
     swapDarkMode() {
