@@ -1,8 +1,8 @@
 import {makeAutoObservable} from "mobx";
 
 class DesignStorage {
-    darkMode = true
-    sidebarEnabled = true
+    darkMode = false
+    sidebarEnabled = false
 
     constructor() {
         makeAutoObservable(this)
