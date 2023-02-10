@@ -1,23 +1,29 @@
+import {makeAutoObservable} from "mobx";
 
 
 class SerialPortItemStorage {
 
-    name = null
     isConnected = false
+    name = null
 
     constructor(portObject) {
         this.portObject = portObject
         let info = portObject.getInfo()
-        this.usbProductId = info?.usbProductId || "null"
-        this.usbVendorId = info?.usbVendorId || "null"
+        this.usbProductId = info?.usbProductId
+        this.usbVendorId = info?.usbVendorId
+        makeAutoObservable(this)
     }
 
-    connect() {
+    async connect() {
         this.isConnected = true
     }
 
-    disconnect() {
+    async disconnect() {
         this.isConnected = false
+    }
+
+    setName(newName) {
+        this.name = newName
     }
 }
 
