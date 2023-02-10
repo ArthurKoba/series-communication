@@ -11,10 +11,10 @@ const SerialPortList = observer(() => {
     )
 
     return (
-        <div className="container-fluid d-flex justify-content-evenly">
+        <div className="container-fluid row  justify-content-evenly mt-5">
             {
                 serialPortsStorage.availablePorts.map((port, i) =>
-                    <SerialPortItem key={i} proxyPortObject={port}></SerialPortItem>
+                    <SerialPortItem key={i} port={port}></SerialPortItem>
                 )
             }
         </div>
