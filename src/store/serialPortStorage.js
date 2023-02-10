@@ -3,14 +3,21 @@
 class SerialPortItemStorage {
 
     name = null
+    isConnected = false
 
-    constructor(portObject, index) {
-        this.index = index
+    constructor(portObject) {
         this.portObject = portObject
         let info = portObject.getInfo()
-        console.log(info)
-        this.usbProductId = info?.usbProductId
-        this.usbVendorId = info?.usbVendorId
+        this.usbProductId = info?.usbProductId || "null"
+        this.usbVendorId = info?.usbVendorId || "null"
+    }
+
+    connect() {
+        this.isConnected = true
+    }
+
+    disconnect() {
+        this.isConnected = false
     }
 }
 
