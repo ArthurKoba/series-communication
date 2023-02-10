@@ -20,10 +20,10 @@ const SerialPorts = () => {
         )
     }
     return (
-        <div className="text-center">
-            <h1>Serial ports</h1>
+        <div className="container-fluid row justify-content-center">
+            <h1 className="text-center mt-3">Serial ports</h1>
 
-            <button className="btn btn-primary" onClick={() => serialManagerStorage.getPorts()}>
+            <button className="btn btn-primary mt-3 col-6" onClick={() => serialManagerStorage.getPorts()}>
                 Add System Port
             </button>
             <SerialPortList></SerialPortList>
