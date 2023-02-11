@@ -2,7 +2,8 @@ import React from 'react';
 import {observer} from "mobx-react-lite";
 
 import serialPortsStorage from "../../store/serialManagerStorage";
-import SerialPortItem from "../../pages/SerialPortItem";
+import SerialPortItem from "./SerialPortItem";
+
 
 const SerialPortList = observer(() => {
 
