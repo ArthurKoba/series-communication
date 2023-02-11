@@ -14,10 +14,6 @@ class SerialManagerStorage {
         this.availablePorts = ports.map((portObject) => new SerialPortStorage(portObject))
     }
 
-    swapDarkMode() {
-        this.darkMode = !this.darkMode;
-    }
-
     async getPorts() {
         this.availablePorts = await navigator.serial.requestPort()
     }
