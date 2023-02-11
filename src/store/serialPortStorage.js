@@ -36,7 +36,8 @@ class SerialPortItemStorage {
     }
 
     setName(newName) {
-        this.name = newName.length? newName : ""
+        if (!newName.length) return
+        this.name = newName
         serialManagerStorage.updateConfigs()
     }
 
