@@ -21,7 +21,9 @@ const SerialPorts = () => {
                     to serial devices. These devices may be connected via a serial port,
                     or be USB or Bluetooth devices that emulate a serial port.
                 </p>
-                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API" target="_blank">
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API"
+                   rel="noreferrer"
+                   target="_blank">
                     More information
                 </a>
             </Container>
