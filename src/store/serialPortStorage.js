@@ -14,25 +14,33 @@ class SerialPortItemStorage {
     baudRate = 0
 
     constructor(portObject, configs = {}) {
-        this.portObject = portObject
         this.id = configs?.id
         this.name = configs?.name || configs?.id
         this.baudRate = configs?.baudRate || 0
         this.usbProductId = configs?.usbProductId
         this.usbVendorId = configs?.usbVendorId
+        this.portObject = portObject
+        this.onConnect = this.onConnect.bind(this)
         makeAutoObservable(this)
+        if (configs?.isConnected) this.connect()
+    }
+
+    onConnect() {
+        this.isConnected = true
+        this.isConnecting = false
+        console.log(this.portObject.readable)
+        serialManagerStorage.updateConfigs()
     }
 
     connect() {
         this.isConnecting = true
-        setTimeout(() => {
-            this.isConnected = true
-            this.isConnecting = false
-        }, 1000)
+        this.portObject.open({baudRate: this.baudRate}).then(this.onConnect).catch(() => this.onConnect())
     }
 
-    async disconnect() {
+    disconnect() {
+        this.portObject.close()
         this.isConnected = false
+        serialManagerStorage.updateConfigs()
     }
 
     setName(newName) {
@@ -48,7 +56,7 @@ class SerialPortItemStorage {
     }
 
     getConfigs() {
-        return {name: this.name, baudRate: this.baudRate, id: getPortId(this)}
+        return {name: this.name, baudRate: this.baudRate, id: getPortId(this), isConnected: this.isConnected}
     }
 }
 
