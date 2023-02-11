@@ -21,6 +21,9 @@ body,
 
   > .content {
     padding: $content-padding-y $content-padding-x;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 }
 
