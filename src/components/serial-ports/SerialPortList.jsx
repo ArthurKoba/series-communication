@@ -1,6 +1,7 @@
 import React from 'react';
-import {observer} from "mobx-react-lite";
+import {Container} from "react-bootstrap";
 
+import {observer} from "mobx-react-lite";
 import serialPortsStorage from "../../store/serialManagerStorage";
 import SerialPortItem from "./SerialPortItem";
 
@@ -8,17 +9,19 @@ import SerialPortItem from "./SerialPortItem";
 const SerialPortList = observer(() => {
 
     if (!serialPortsStorage.availablePorts.length) return (
-        <div><h1>Порты не установлены или загружаются.</h1></div>
+        <Container fluid className="text-center mt-3">
+            <h2>Serial ports are not installed or are being loaded....</h2>
+        </Container>
     )
 
     return (
-        <div className="container-fluid row  justify-content-evenly mt-5">
+        <Container fluid className="row justify-content-evenly mt-5">
             {
                 serialPortsStorage.availablePorts.map((port, i) =>
                     <SerialPortItem key={i} port={port}></SerialPortItem>
                 )
             }
-        </div>
+        </Container>
     );
 });
 
