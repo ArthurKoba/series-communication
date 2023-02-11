@@ -2,11 +2,19 @@ import React from 'react';
 
 import SerialPortList from "../components/serial-ports/SerialPortList";
 import serialManagerStorage from "../store/serialManagerStorage";
+import {Button, Container} from "react-bootstrap";
 
 const SerialPorts = () => {
+
+    const addSerialPort = () => {
+        navigator.serial.requestPort()
+            .then(serialManagerStorage.loadPorts)
+            .catch((e) => console.warn(e))
+    }
+
     if (!navigator.serial) {
         return (
-            <div className="text-center d-flex justify-content-center"><div className="col-6">
+            <Container fluid className="row text-center col-6 mt-4">
                 <h1>Serial ports unavailable!</h1>
                 <p>
                     The Web Serial API provides a way for websites to read from and write
@@ -16,18 +24,17 @@ const SerialPorts = () => {
                 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API" target="_blank">
                     More information
                 </a>
-            </div></div>
+            </Container>
         )
     }
-    return (
-        <div className="container-fluid row justify-content-center">
-            <h1 className="text-center mt-3">Serial ports</h1>
 
-            <button className="btn btn-primary mt-3 col-6" onClick={() => serialManagerStorage.getPorts()}>
-                Add System Port
-            </button>
+    return (
+        <Container fluid className="row justify-content-center">
+            <h1 className="text-center mt-3">Serial ports</h1>
+            <Button variant="primary" className="mt-3 col-7" onClick={addSerialPort}>Add System Port</Button>
+            <Button variant="primary" className="mt-3 col-7" onClick={serialManagerStorage.loadPorts}>Update</Button>
             <SerialPortList></SerialPortList>
-        </div>
+        </Container>
     );
 };
 
