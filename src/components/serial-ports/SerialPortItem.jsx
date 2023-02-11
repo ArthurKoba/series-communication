@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, ButtonGroup, Card, Form, InputGroup} from "react-bootstrap";
-import CardHeader from "react-bootstrap/CardHeader";
 import {observer} from "mobx-react-lite";
 
 
@@ -34,10 +33,10 @@ const SerialPortItem = observer(({port}) => {
 
     return (
         <Card className="col-4">
-            <CardHeader className="row">
+            <Card.Header className="row">
                 <span>Name: {port.name || "null"}</span>
-            </CardHeader>
-            <div className="card-body row">
+            </Card.Header>
+            <Card.Body className="row">
                 <InputGroup size="sm" className="mb-2">
                     <InputGroup.Text>Name</InputGroup.Text>
                     <Form.Control
@@ -73,14 +72,12 @@ const SerialPortItem = observer(({port}) => {
                         {state}
                     </Button>
                 </ButtonGroup>
-            </div>
-            <div className="card-footer row text-center">
+            </Card.Body>
+            <Card.Footer className="row text-center">
                 <span>usbProductId: {port.usbProductId || "null"}</span>
                 <hr className="m-2 mx-0"/>
                 <span>usbVendorId: {port.usbVendorId || "null"}</span>
-            </div>
-
-
+            </Card.Footer>
         </Card>
     );
 });
