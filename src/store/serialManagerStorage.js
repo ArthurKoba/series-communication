@@ -33,6 +33,7 @@ class SerialManagerStorage {
         }
     }
 
+
     updateConfigs() {
         let currentConfigs = this.availablePorts.map((port) => port.getConfigs())
         let oldConfigs = JSON.parse(localStorage.getItem("serialPorts"))

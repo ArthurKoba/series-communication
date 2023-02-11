@@ -15,7 +15,8 @@ class SerialPortItemStorage {
 
     constructor(portObject, configs = {}) {
         this.portObject = portObject
-        this.name = configs?.name
+        this.id = configs?.id
+        this.name = configs?.name || configs?.id
         this.baudRate = configs?.baudRate || 0
         this.usbProductId = configs?.usbProductId
         this.usbVendorId = configs?.usbVendorId

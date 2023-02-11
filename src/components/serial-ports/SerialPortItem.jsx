@@ -39,8 +39,7 @@ const SerialPortItem = observer(({port}) => {
                     <InputGroup.Text>Name</InputGroup.Text>
                     <Form.Control
                         onBlur={(e) => port.setName(e.target.value)}
-                        placeholder={port.name || "null"}
-                        disabled={!port.usbVendorId && !port.usbProductId}
+                        placeholder={port.name}
                     />
                 </InputGroup>
                 <InputGroup size="sm" className="mb-2">
@@ -73,9 +72,9 @@ const SerialPortItem = observer(({port}) => {
                 </ButtonGroup>
             </Card.Body>
             <Card.Footer className="row text-center">
-                <span>usbProductId: {port.usbProductId || "null"}</span>
+                <span>usbProductId: {port.usbProductId || "virtual"}</span>
                 <hr className="m-2 mx-0"/>
-                <span>usbVendorId: {port.usbVendorId || "null"}</span>
+                <span>usbVendorId: {port.usbVendorId || "virtual"}</span>
             </Card.Footer>
         </Card>
     );
