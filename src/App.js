@@ -8,6 +8,7 @@ import {observer} from "mobx-react-lite";
 import designStorage from "./store/designStorage";
 import SerialPorts from "./pages/SerialPorts";
 import DataStreams from "./pages/DataStreams";
+import Generators from "./pages/Generators";
 
 
 
@@ -26,6 +27,7 @@ const App = observer(() => {
                             <Route path="/" element={<MainPage/>}/>
                             <Route path="/serial" element={<SerialPorts/>}/>
                             <Route path="/dataStreams" element={<DataStreams/>}/>
+                            <Route path="/generators" element={<Generators/>}/>
                         </Routes>
                     </Content>
                     <Footer></Footer>

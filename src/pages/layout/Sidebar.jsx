@@ -31,7 +31,7 @@ const Sidebar = observer(() => {
                     </li>
                     <li className="nav-header">DATA SOURCES</li>
                     <li className="nav-item">
-                        <Link className="nav-link">
+                        <Link to={"/generators"} className="nav-link">
                             <i className="nav-icon fas fa-calendar-alt"></i>
                             <p>Generators</p>
                         </Link>
