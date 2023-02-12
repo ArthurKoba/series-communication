@@ -8,8 +8,7 @@ import {observer} from "mobx-react-lite";
 import designStorage from "./store/designStorage";
 import SerialPorts from "./pages/SerialPorts";
 import DataStreams from "./pages/DataStreams";
-import Generators from "./pages/Generators";
-
+import Generators from "./modules/generators/Generators";
 
 
 const App = observer(() => {

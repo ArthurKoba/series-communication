@@ -1,11 +1,11 @@
 import React from 'react';
-import {Container} from "react-bootstrap";
-import generatorManagerStorage from "../../store/generatorManagerStorage";
 import {observer} from "mobx-react-lite";
+import {Container} from "react-bootstrap";
+
 import GeneratorItem from "./GeneratorItem";
+import generatorManagerStorage from "../store/generatorManagerStorage";
 
 const GeneratorList = observer(() => {
-
     return (
         <Container fluid className="row">
             {

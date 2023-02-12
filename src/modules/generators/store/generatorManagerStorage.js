@@ -1,9 +1,5 @@
 import {makeAutoObservable} from "mobx";
 import Generator from "./generatorStorage";
-import {elements} from "chart.js";
-import generators from "../pages/Generators";
-
-
 
 class GeneratorsManager {
 

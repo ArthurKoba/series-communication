@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Container} from "react-bootstrap";
-import GeneratorList from "../components/generators/GeneratorList";
-import generatorManagerStorage from "../store/generatorManagerStorage";
+import generatorManagerStorage from "./store/generatorManagerStorage";
+import GeneratorList from "./components/GeneratorList";
 
 const Generators = () => {
     return (
