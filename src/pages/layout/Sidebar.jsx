@@ -22,6 +22,13 @@ const Sidebar = observer(() => {
                             <p>Main menu</p>
                         </Link>
                     </li>
+                    <li className="nav-header">DATA STREAMS</li>
+                    <li className="nav-item">
+                        <Link to={"/dataStreams"} className="nav-link">
+                            <i className="nav-icon fas fa-copy"></i>
+                            <p>Data Streams</p>
+                        </Link>
+                    </li>
                     <li className="nav-header">DATA SOURCES</li>
                     <li className="nav-item">
                         <Link className="nav-link">

@@ -7,6 +7,7 @@ import Footer from "./pages/layout/Footer";
 import {observer} from "mobx-react-lite";
 import designStorage from "./store/designStorage";
 import SerialPorts from "./pages/SerialPorts";
+import DataStreams from "./pages/DataStreams";
 
 
 
@@ -24,6 +25,7 @@ const App = observer(() => {
                         <Routes>
                             <Route path="/" element={<MainPage/>}/>
                             <Route path="/serial" element={<SerialPorts/>}/>
+                            <Route path="/dataStreams" element={<DataStreams/>}/>
                         </Routes>
                     </Content>
                     <Footer></Footer>
