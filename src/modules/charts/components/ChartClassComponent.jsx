@@ -1,7 +1,6 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Chart} from 'react-chartjs-2';
 import {Button, Container} from "react-bootstrap";
-import Select from "../UI/select/Select";
 
 
 const changeTypeOptions = [

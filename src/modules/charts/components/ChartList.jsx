@@ -1,20 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {observer} from "mobx-react-lite";
-import {Container, Row} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 
-import chartManagerStorage from "../../store/chartManagerStorage";
 import ChartItem from "./ChartItem";
+import chartManagerStorage from "../store/chartManagerStorage";
 
 const ChartList = observer(() => {
     return (
-        <Container fluid>
-            <Row>
+        <Container fluid className="row justify-content-center">
                 {
                     chartManagerStorage.charts.map((element, i) =>
                         <ChartItem key={i} chartStorage={element}></ChartItem>
                     )
                 }
-            </Row>
         </Container>
     );
 });
