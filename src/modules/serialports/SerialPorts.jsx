@@ -1,8 +1,8 @@
 import React from 'react';
-
-import SerialPortList from "../components/serial-ports/SerialPortList";
-import serialManagerStorage from "../store/serialManagerStorage";
 import {Button, Container} from "react-bootstrap";
+
+import serialManagerStorage from "./store/serialManagerStorage";
+import SerialPortList from "./components/SerialPortList";
 
 const SerialPorts = () => {
 

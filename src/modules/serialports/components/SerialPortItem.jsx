@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Button, ButtonGroup, Card, Form, InputGroup} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
-import {checkBaudRate} from "../../store/serialPortStorage";
+import {Button, ButtonGroup, Card, Form, InputGroup} from "react-bootstrap";
 
+import {checkBaudRate} from "../store/serialPortStorage";
 
 const SerialPortItem = observer(({port}) => {
 

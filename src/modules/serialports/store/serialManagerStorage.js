@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+
 import SerialPortStorage from "./serialPortStorage";
 
 export function getPortId(portInfo) {

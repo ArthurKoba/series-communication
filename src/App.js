@@ -6,9 +6,9 @@ import Content from "./pages/layout/Content";
 import Footer from "./pages/layout/Footer";
 import {observer} from "mobx-react-lite";
 import designStorage from "./store/designStorage";
-import SerialPorts from "./pages/SerialPorts";
 import DataStreams from "./pages/DataStreams";
 import Generators from "./modules/generators/Generators";
+import SerialPorts from "./modules/serialports/SerialPorts";
 
 
 const App = observer(() => {
