@@ -1,7 +1,0 @@
-@mixin dark-mode {
-  @if $enable-dark-mode {
-    .dark-mode {
-      @content;
-    }
-  }
-}
