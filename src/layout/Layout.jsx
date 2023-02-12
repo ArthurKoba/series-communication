@@ -1,8 +1,10 @@
 import React from 'react';
+import Navbar from "./components/Navbar";
 
-const Content = ({children}) => {
+const Layout = ({children}) => {
     return (
-        <div className="content-wrapper">
+        <div className="wrapper">
+            <Navbar/>
             <section className="content">
                 {children}
             </section>
@@ -10,4 +12,4 @@ const Content = ({children}) => {
     );
 };
 
-export default Content;
+export default Layout;
