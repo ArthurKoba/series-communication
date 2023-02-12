@@ -1,6 +1,8 @@
 import {makeAutoObservable} from "mobx";
+
 import serialManagerStorage, {getPortId} from "./serialManagerStorage";
-import dataStreamManager from "../../../store/dataStreamManager";
+import dataStreamManager from "../../streams/store/dataStreamManager";
+
 
 export function checkBaudRate(value) {
     return Number.isInteger(value) && value > 0 && value < 10000000
