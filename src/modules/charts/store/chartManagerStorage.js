@@ -5,10 +5,10 @@ class ChartManager {
     charts = []
 
     constructor() {
-        makeAutoObservable(this)
         this.charts.push(
-            new chartStorage()
+            new chartStorage({manager: this})
         )
+        makeAutoObservable(this)
     }
 
     deleteChart(chart) {
