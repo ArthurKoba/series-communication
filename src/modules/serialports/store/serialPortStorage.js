@@ -1,8 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
 import serialManagerStorage, {getPortId} from "./serialManagerStorage";
-import dataStreamManager from "../../streams/store/dataStreamManager";
-
 
 export function checkBaudRate(value) {
     return Number.isInteger(value) && value > 0 && value < 10000000
@@ -31,7 +29,6 @@ class SerialPortItemStorage {
     onConnect() {
         this.isConnected = true
         this.isConnecting = false
-        dataStreamManager.addStream({type: "serial", resourceObject: this})
         serialManagerStorage.updateConfigs()
     }
 
@@ -41,7 +38,6 @@ class SerialPortItemStorage {
     }
 
     disconnect() {
-        dataStreamManager.deleteStream({type: "serial", resourceObject: this})
         this.portObject.close()
         this.isConnected = false
         serialManagerStorage.updateConfigs()
