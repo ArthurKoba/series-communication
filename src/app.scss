@@ -6,6 +6,10 @@
 }
 
 .navbar {
-  background-color: #001f3f;
+  background-color: $blue-900;
+  .navbar-nav {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
