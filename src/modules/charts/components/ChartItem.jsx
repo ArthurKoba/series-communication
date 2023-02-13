@@ -18,7 +18,7 @@ const ChartItem = observer(({chart}) => {
             <Container fluid className="p-2">
 
                     <Button onClick={() => chart.click()}>click</Button>
-                    <Button onClick={() => (chart.isFullScreen = !chart.isFullScreen)}>FullScreen</Button>
+                    <Button onClick={() => (chart.swapFullscreen())}>FullScreen</Button>
                     <Button variant="danger" onClick={() => setShowRemoveModal(true)}>
                         Удалить
                     </Button>

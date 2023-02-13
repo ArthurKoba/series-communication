@@ -41,6 +41,10 @@ class ChartStorage {
         this.chart?.update()
     }
 
+    swapFullscreen() {
+        this.isFullScreen = !this.isFullScreen
+    }
+
     remove = () => this.manager.deleteChart(this)
 }
 
