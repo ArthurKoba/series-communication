@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {action, makeAutoObservable} from "mobx";
 
 import SerialPortStorage from "./serialPortStorage";
 
@@ -25,15 +25,15 @@ class SerialManagerStorage {
         while (virtualPorts.length > 1) virtualPorts.shift().forget()
         let configs = JSON.parse(localStorage.getItem("serialPorts"))
         ports = [...virtualPorts, ...usbPorts]
-        this.availablePorts = []
+        let availablePorts = []
         for (let port of ports) {
             let portInfo = port.getInfo()
             let config = configs.find((element) => element.id === getPortId(portInfo))
             config = config? {...config, ...portInfo} : {...portInfo}
-            this.availablePorts.push(new SerialPortStorage(port, config))
+            availablePorts.push(new SerialPortStorage(port, config))
         }
+        action((data) => this.availablePorts = data)(availablePorts)
     }
-
 
     updateConfigs() {
         let currentConfigs = this.availablePorts.map((port) => port.getConfigs())
