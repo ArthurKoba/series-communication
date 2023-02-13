@@ -1,11 +1,21 @@
-import {makeAutoObservable} from "mobx";
+import {reaction} from "mobx";
+
 
 class DataStreamManager {
-
-    // serialReaders = []
+    serialStreams = []
 
     constructor() {
-        // makeAutoObservable(this)
+    }
+
+    init(appStorage) {
+        reaction(
+            () => appStorage.serialManager.availablePorts,
+            (change) => this.updateSerialPorts(change)
+        )
+    }
+
+    updateSerialPorts(serialPorts) {
+        this.serialStreams = [...serialPorts]
     }
 
     // async readStream(reader) {
@@ -17,15 +27,6 @@ class DataStreamManager {
     //         await new Promise(resolve => setTimeout(resolve, 10));
     //     }
     // }
-
-    addStream({type, resourceObject}) {
-        // let reader = resourceObject.portObject.readable.getReader()
-        // this.readStream(reader).then(() => null)
-    }
-
-    deleteStream({type, resourceObject}) {
-
-    }
 }
 
 export default DataStreamManager;
