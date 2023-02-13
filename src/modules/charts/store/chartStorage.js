@@ -1,6 +1,8 @@
 import {makeAutoObservable} from "mobx";
 import Chart from "chart.js/auto";
 
+import {defaultOptions} from "../configs/chartjsdefault"
+
 const data = {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
     datasets: [
@@ -31,7 +33,8 @@ const options = {
 
 class ChartStorage {
     chart = null
-    data = {type: "line", options: {...options}, data: {...data}}
+    data = {type: "line", options: {...defaultOptions}, data: {...data}}
+    isFullScreen = false
 
     constructor(name) {
         if (name) this.data.options.plugins.legend = name
