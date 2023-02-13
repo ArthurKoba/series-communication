@@ -2,7 +2,6 @@ import {makeAutoObservable} from "mobx";
 import chartStorage from "./chartStorage";
 
 class ChartManager {
-    count = 0
     charts = []
 
     constructor() {
