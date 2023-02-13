@@ -8,7 +8,7 @@ const ChartList = observer(({charts}) => {
     return (
         <Container fluid className="row justify-content-center">
                 {
-                    charts.map((element, i) => <ChartItem key={i} chartStorage={element}/>)
+                    charts.map((element, i) => <ChartItem key={i} chart={element}/>)
                 }
         </Container>
     );
