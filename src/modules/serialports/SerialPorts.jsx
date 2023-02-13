@@ -1,14 +1,15 @@
 import React from 'react';
 import {Button, Container} from "react-bootstrap";
 
-import serialManagerStorage from "./store/serialManagerStorage";
 import SerialPortList from "./components/SerialPortList";
+import appStorage from "../../appStorage";
 
 const SerialPorts = () => {
 
+
     const addSerialPort = () => {
         navigator.serial.requestPort()
-            .then(serialManagerStorage.loadPorts)
+            .then(appStorage.serialManager.loadPorts)
             .catch((e) => console.warn(e))
     }
 
@@ -34,8 +35,8 @@ const SerialPorts = () => {
         <Container fluid className="row justify-content-center">
             <h1 className="text-center mt-3">Serial ports</h1>
             <Button variant="primary" className="mt-3 col-7" onClick={addSerialPort}>Add System Port</Button>
-            <Button variant="primary" className="mt-3 col-7" onClick={serialManagerStorage.loadPorts}>Update</Button>
-            <SerialPortList></SerialPortList>
+            <Button variant="primary" className="mt-3 col-7" onClick={appStorage.serialManager.loadPorts}>Update</Button>
+            <SerialPortList serialPorts={appStorage.serialManager.availablePorts}/>
         </Container>
     );
 };
