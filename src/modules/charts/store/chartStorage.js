@@ -14,30 +14,15 @@ const data = {
     ]
 }
 
-const options = {
-    responsive: true,
-    animation: {duration: 0},
-    elements: {
-        point: {radius: 0},
-        line: {
-            borderColor: "#F00",
-            borderWidth: 1,
-        }
-    },
-    plugins: {
-        legend: {position: 'top'},
-        title: {display: true, text: "Some chart"},
-    },
-    scales: {y: {}}
-}
-
 class ChartStorage {
     chart = null
     data = {type: "line", options: {...defaultOptions}, data: {...data}}
     isFullScreen = false
 
-    constructor(name) {
+    constructor({name, manager}) {
         if (name) this.data.options.plugins.legend = name
+        this.manager = manager
+        makeAutoObservable(this)
     }
 
     setCtx(ctx) {
@@ -55,6 +40,8 @@ class ChartStorage {
         this.data.type = type
         this.chart?.update()
     }
+
+    remove = () => this.manager.deleteChart(this)
 }
 
 export default ChartStorage
