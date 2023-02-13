@@ -46,6 +46,4 @@ class SerialManagerStorage {
     }
 }
 
-const serialManagerStorage = new SerialManagerStorage()
-
-export default serialManagerStorage;
+export default SerialManagerStorage;

@@ -28,4 +28,4 @@ class DataStreamManager {
     }
 }
 
-export default new DataStreamManager();
+export default DataStreamManager;

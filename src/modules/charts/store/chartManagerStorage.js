@@ -17,4 +17,4 @@ class ChartManager {
     }
 }
 
-export default new ChartManager()
+export default ChartManager

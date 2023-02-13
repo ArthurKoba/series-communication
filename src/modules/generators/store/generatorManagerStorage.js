@@ -34,4 +34,4 @@ class GeneratorsManager {
     }
 }
 
-export default new GeneratorsManager();
+export default GeneratorsManager;
