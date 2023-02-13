@@ -3,14 +3,12 @@ import {observer} from "mobx-react-lite";
 import {Container} from "react-bootstrap";
 
 import GeneratorItem from "./GeneratorItem";
-import generatorManagerStorage from "../store/generatorManagerStorage";
 
-const GeneratorList = observer(() => {
+const GeneratorList = observer(({generators}) => {
     return (
         <Container fluid className="row">
             {
-                generatorManagerStorage.generators.map((generator, index) =>
-                    <GeneratorItem key={index} generator={generator} />)
+                generators.map((generator, index) => <GeneratorItem key={index} generator={generator}/>)
             }
         </Container>
     );

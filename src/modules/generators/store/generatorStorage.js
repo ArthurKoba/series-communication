@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import generatorManagerStorage from "./generatorManagerStorage";
+import appStorage from "../../../appStorage";
 
 class Generator {
 
@@ -17,7 +17,7 @@ class Generator {
     setName(newName) {
         if (!newName.length) return
         this.name = newName
-        generatorManagerStorage.updateConfigs()
+        appStorage.generatorsManager.updateConfigs() // todo update and delete with link to generator manager
     }
 
     setFrequency(value) {
