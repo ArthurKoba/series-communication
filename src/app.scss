@@ -1,5 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
 
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
+  --bs-gutter-x: 0rem;
+}
 
 .wrapper {
   height: 100vh;
@@ -11,5 +20,24 @@
     justify-content: center;
     width: 100%;
   }
+}
+
+@media (min-width: 1200px) {
+  .chart {
+    max-width: 80%;
+  }
+}
+@media (min-width: 1400px) {
+  .chart {
+    max-width: 70%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $primary;
 }
 
