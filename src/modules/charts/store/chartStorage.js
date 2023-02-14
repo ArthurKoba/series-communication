@@ -68,13 +68,11 @@ class ChartStorage {
     }
 
     setMaxScale(value) {
-        parseFloat(value)
         this.data.options.scales.y.max = value
         this.chart?.update()
     }
 
     setMinScale(value) {
-        parseFloat(value)
         this.data.options.scales.y.min = value
         this.chart?.update()
     }

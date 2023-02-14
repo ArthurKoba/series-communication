@@ -34,13 +34,13 @@ const ChartItemConfiguration = observer(({chart}) => {
                 <InputGroup.Text>Min scale</InputGroup.Text>
                 <Form.Control onChange={(e) => changeMinScale(e.target.value)}
                               value={minScale} isInvalid={minScaleInvalid}
-                              placeholder={chart.data.options.scales.y?.min}/>
+                />
             </InputGroup>
             <InputGroup size="sm" className="mb-2">
                 <InputGroup.Text>Max scale</InputGroup.Text>
                 <Form.Control onChange={(e) => changeMaxScale(e.target.value)}
                               value={maxScale} isInvalid={maxScaleInvalid}
-                              placeholder={chart.data.options.scales.y?.max}/>
+                />
             </InputGroup>
         </Container>
     );

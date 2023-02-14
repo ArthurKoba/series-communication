@@ -15,7 +15,6 @@ class ChartManager {
     }
 
     deleteChart(chart) {
-        console.log(chart)
         this.charts = this.charts.filter((chart) => chart.id !== chart)
         let configs = JSON.parse(localStorage.getItem("charts"))
         delete configs[chart.id]
