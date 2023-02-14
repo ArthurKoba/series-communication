@@ -1,43 +1,41 @@
 import {makeAutoObservable} from "mobx";
-import appStorage from "../../../appStorage";
 
 class Generator {
 
     isEnabled = false
-    name = null
     frequency = 0
 
     constructor(configs = {}) {
         this.id = configs.id
-        this.name = configs?.name || configs.id
+        this.manager = configs.manager
         this.frequency = configs?.frequency || 0.1
+        this.isEnabled = configs?.isEnabled
         makeAutoObservable(this)
     }
 
-    setName(newName) {
-        if (!newName.length) return
-        this.name = newName
-        appStorage.generatorsManager.updateConfigs() // todo update and delete with link to generator manager
-    }
-
     setFrequency(value) {
-        console.log(value)
+        this.frequency = value
+        this.updateConfigs()
     }
 
-    getConfigs() {
-        return {
-            id: this.id,
-            name: this.name,
-            frequency: this.frequency
-        }
+    updateConfigs() {
+        this.manager.updateGeneratorConfig({
+            id: this.id, frequency: this.frequency, isEnabled: this.isEnabled
+        })
+    }
+
+    remove() {
+        this.manager.removeGenerator(this)
     }
 
     enable() {
         this.isEnabled = true
+        this.updateConfigs()
     }
 
     disable() {
         this.isEnabled = false
+        this.updateConfigs()
     }
 
 }

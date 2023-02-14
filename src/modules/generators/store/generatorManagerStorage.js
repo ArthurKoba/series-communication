@@ -2,36 +2,37 @@ import {makeAutoObservable} from "mobx";
 import Generator from "./generatorStorage";
 
 class GeneratorsManager {
-
     generators = []
 
     constructor() {
         makeAutoObservable(this)
         let configs = JSON.parse(localStorage.getItem("generators"))
-        if (configs) this.generators = configs.map((config) => new Generator(config))
-        else localStorage.setItem("generators", JSON.stringify([]))
+        if (!configs) return
+        configs = configs.filter((element) => element !== null)
+        if (configs) this.generators = configs.map((
+            config, index) => new Generator({...config, id: index, manager: this})
+        )
     }
 
     newGenerator() {
-        this.generators.push(new Generator({id: this.getNewId()}))
+        this.generators.push(new Generator({id: this.generators.length, manager: this}))
     }
 
-    updateConfigs() {
-        let currentConfigs = this.generators.map((generator) => generator.getConfigs())
-        let oldConfigs = JSON.parse(localStorage.getItem("generators"))
-        for (let config of oldConfigs) {
-            if (currentConfigs.find((element) => element.id !== config.id))
-                currentConfigs.push(config)
-        }
-        localStorage.setItem("generators", JSON.stringify(currentConfigs))
+    removeGenerator(generator) {
+        this.generators = this.generators.filter((chart) => chart.id !== chart)
+        let configs = JSON.parse(localStorage.getItem("generators"))
+        delete configs[generator.id]
+        this.generators = this.generators.filter((element) => element.id !== generator.id)
+        localStorage.setItem("generators", JSON.stringify(configs))
     }
 
-    getNewId() {
-        while (true) {
-            let id = Date.now() + this.generators.length
-            if (!this.generators.find((element) => element.id !== id)) return id
-        }
+    updateGeneratorConfig(config) {
+        let configs = JSON.parse(localStorage.getItem("generators"))
+        if (!configs) configs = [config]
+        else configs[config.id] = config
+        localStorage.setItem("generators", JSON.stringify(configs))
     }
+
 }
 
 export default GeneratorsManager;

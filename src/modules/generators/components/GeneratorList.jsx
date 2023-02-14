@@ -1,8 +1,8 @@
 import React from 'react';
-import {observer} from "mobx-react-lite";
 import {Container} from "react-bootstrap";
 
 import GeneratorItem from "./GeneratorItem";
+import {observer} from "mobx-react-lite";
 
 const GeneratorList = observer(({generators}) => {
     return (
