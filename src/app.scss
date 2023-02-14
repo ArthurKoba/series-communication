@@ -22,6 +22,10 @@
   }
 }
 
+.chart-button > * {
+  margin: .25rem;
+}
+
 @media (min-width: 1200px) {
   .chart {
     max-width: 80%;

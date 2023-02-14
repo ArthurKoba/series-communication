@@ -3,6 +3,7 @@ import {observer} from "mobx-react-lite";
 import {Button, Container} from "react-bootstrap";
 
 import ModalRemoveChartButton from "./ui/ModalRemoveChartButton";
+import ChartItemConfiguration from "./ChartItemConfiguration";
 
 
 const ChartItem = observer(({chart}) => {
@@ -16,13 +17,15 @@ const ChartItem = observer(({chart}) => {
         <Container className={"chart row p-1 " + fullScreen}>
             <Container className="border border-2 border-primary rounded">
                 <canvas ref={ctx} className="border-bottom border-primary"></canvas>
-                <Container className="d-flex justify-content-center p-2">
-                        <Button onClick={() => chart.click()}>click</Button>
-                        <Button variant="danger" onClick={() => setShowRemoveModal(true)}>
+                <Container className="chart-button col d-flex justify-content-center">
+                        <Button size="sm" onClick={() => chart.resetScales()}>Reset Scales</Button>
+                        <Button size="sm" variant="danger" onClick={() => setShowRemoveModal(true)}>
                             Remove
                         </Button>
-                        <Button onClick={() => (chart.swapFullscreen())}>FullScreen</Button>
+                        <Button size="sm" onClick={() => (chart.swapFullscreen())}>FullScreen</Button>
+                        <Button size="sm" onClick={() => (chart.swapConfigurationOpened())}>Configuration</Button>
                 </Container>
+                {chart.isConfigurationOpened? <ChartItemConfiguration chart={chart}/> : ""}
                 <ModalRemoveChartButton
                     show={showRemoveModal}
                     handleClose={() => setShowRemoveModal(false)}

@@ -20,7 +20,9 @@ class ChartStorage {
 
     constructor({manager, configs}) {
         this.id = configs.id
-        this.isFullScreen = configs?.fullscreen || false
+        this.data.type = configs?.type || "line"
+        this.isFullScreen = configs?.isFullScreen || false
+        this.isConfigurationOpened = configs?.isConfigurationOpened || false
         this.manager = manager
         makeAutoObservable(this)
     }
@@ -47,10 +49,27 @@ class ChartStorage {
         this.updateConfigs()
     }
 
+    swapConfigurationOpened () {
+        this.isConfigurationOpened = !this.isConfigurationOpened
+        this.updateConfigs()
+    }
+
     updateConfigs() {
         this.manager.updateChartConfig({
-            id: this.id, fullscreen: this.isFullScreen, type: this.data.type
+            id: this.id, fullscreen: this.isFullScreen, type: this.data.type,
+            isConfigurationOpened: this.isConfigurationOpened
         })
+    }
+
+    resetScales() {
+        let min = Math.min(...this.chart.data.datasets.map((dataset) => Math.min(...dataset.data)))
+        let max = Math.max(...this.chart.data.datasets.map((dataset) => Math.max(...dataset.data)))
+        this.setScales({min: min, max: max})
+    }
+
+    setScales({min, max}) {
+        this.data.options.scales.y = {min: min, max: max}
+        this.chart?.update()
     }
 
     remove = () => this.manager.deleteChart(this)

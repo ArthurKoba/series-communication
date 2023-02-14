@@ -1,3 +1,8 @@
+export const chartTypes = [
+    {type: "line", name: "Linear"},
+    {type: "bar", name: "Bar"},
+]
+
 export const defaultOptions = {
     responsive: true,
     animation: {duration: 0},
