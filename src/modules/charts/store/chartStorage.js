@@ -17,10 +17,10 @@ const data = {
 class ChartStorage {
     chart = null
     data = {type: "line", options: {...defaultOptions}, data: {...data}}
-    isFullScreen = false
 
-    constructor({name, manager}) {
-        if (name) this.data.options.plugins.legend = name
+    constructor({manager, configs}) {
+        this.id = configs.id
+        this.isFullScreen = configs?.fullscreen || false
         this.manager = manager
         makeAutoObservable(this)
     }
@@ -39,10 +39,18 @@ class ChartStorage {
     setType(type) {
         this.data.type = type
         this.chart?.update()
+        this.updateConfigs()
     }
 
     swapFullscreen() {
         this.isFullScreen = !this.isFullScreen
+        this.updateConfigs()
+    }
+
+    updateConfigs() {
+        this.manager.updateChartConfig({
+            id: this.id, fullscreen: this.isFullScreen, type: this.data.type
+        })
     }
 
     remove = () => this.manager.deleteChart(this)
