@@ -24,12 +24,27 @@ class ChartStorage {
         this.isFullScreen = configs?.isFullScreen || false
         this.isConfigurationOpened = configs?.isConfigurationOpened || false
         this.manager = manager
+        this.updateData = this.updateData.bind(this)
         makeAutoObservable(this)
     }
 
     setCtx(ctx) {
         if (Chart.getChart(ctx)) return
         this.chart = new Chart(ctx, this.data)
+    }
+
+    async updateData({dataType, data}) {
+        if (this.isBusy) return
+        this.isBusy = true
+        if (this.data.data.labels.length !== data.length) {
+            this.data.data.labels = [...Array(data.length).keys()].map(i => i+1)
+        }
+        this.data.data.datasets[0].data = data
+        let startTime = new Date()
+        this.chart?.update()
+        let endTime = new Date() - startTime
+        console.log("show time: ", endTime)
+        this.isBusy = false
     }
 
     click() {
