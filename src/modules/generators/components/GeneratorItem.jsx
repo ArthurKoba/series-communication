@@ -7,16 +7,38 @@ const GeneratorItem = observer(({generator}) => {
     const [frequency, setFrequency] = useState("");
     const [frequencyInvalid, setFrequencyInvalid] = useState(false)
 
+    const [lengthData, setLengthData] = useState("");
+    const [lengthDataInvalid, setLengthDataInvalid] = useState(false)
+
+    const [delayMs, setDelayMs] = useState("");
+    const [delayMsInvalid, setDelayMsInvalid] = useState(false)
+
     const handlerSetFrequency = (value) => {
         setFrequency(value)
         value = parseFloat(value)
-        if (isNaN(value)) return setFrequencyInvalid(true)
+        if (isNaN(value) || value === 0.0) return setFrequencyInvalid(true)
         setFrequencyInvalid(false)
         generator.setFrequency(value)
     }
 
+    const handlerSetLengthData = (value) => {
+        setLengthData(value)
+        value = parseInt(value)
+        if (isNaN(value) || value === 0) return setLengthDataInvalid(true)
+        setLengthDataInvalid(false)
+        generator.setLengthData(value)
+    }
+
+    const handlerSetDelay = (value) => {
+        setDelayMs(value)
+        value = parseInt(value)
+        if (isNaN(value) || value === 0) return setDelayMsInvalid(true)
+        setDelayMsInvalid(false)
+        generator.setDelayMs(value)
+    }
+
     return (
-        <Container fluid className="col-6 mt-2">
+        <Container fluid className="col-5 mt-2">
             <Card>
                 <Card.Body className="row">
                     <InputGroup size="sm" className="mb-2">
@@ -28,6 +50,25 @@ const GeneratorItem = observer(({generator}) => {
                             value={frequency}
                         />
                     </InputGroup>
+                    <InputGroup size="sm" className="mb-2">
+                        <InputGroup.Text>Length</InputGroup.Text>
+                        <Form.Control
+                            onChange={(e) => handlerSetLengthData(e.target.value)}
+                            placeholder={generator.lengthData}
+                            isInvalid={lengthDataInvalid}
+                            value={lengthData}
+                        />
+                    </InputGroup>
+                    <InputGroup size="sm" className="mb-2">
+                        <InputGroup.Text>Delay (Ms)</InputGroup.Text>
+                        <Form.Control
+                            onChange={(e) => handlerSetDelay(e.target.value)}
+                            placeholder={generator.delayMs}
+                            isInvalid={delayMsInvalid}
+                            value={delayMs}
+                        />
+                    </InputGroup>
+
                     <ButtonGroup className="mb-2">
                         <Button variant={generator.isEnabled? "outline-success": "success"} size="sm"
                                 disabled={generator.isEnabled}
