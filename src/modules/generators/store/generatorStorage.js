@@ -36,6 +36,7 @@ class Generator {
             }
             await new Promise(resolve => setTimeout(resolve, this.delayMs));
         }
+        this.task = null
     }
 
     updateConfigs() {
