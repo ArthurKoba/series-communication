@@ -6,6 +6,9 @@ class ChartManager {
     
     constructor() {
         makeAutoObservable(this)
+    }
+
+    init() {
         let chartConfigs = JSON.parse(localStorage.getItem("charts"))
         if (!chartConfigs) return
         chartConfigs = chartConfigs.filter((element) => element !== null)

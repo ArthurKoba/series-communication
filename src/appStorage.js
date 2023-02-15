@@ -12,6 +12,7 @@ class AppStorage {
 
     constructor() {
         this.streamsManager.init(this)
+        this.chartsManager.init()
         this.generatorsManager.init()
     }
 }
