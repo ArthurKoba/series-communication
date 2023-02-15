@@ -1,21 +1,38 @@
 import {reaction} from "mobx";
 
+import DataStream from "./dataStreamStorage";
+
 
 class DataStreamManager {
     serialStreams = []
+    generatorStreams = []
+    charts = []
 
-    constructor() {
-    }
+    constructor() {}
 
     init(appStorage) {
-        reaction(
+
+        this.reactionUpdateCharts = reaction(
+            () => appStorage.chartsManager.charts,
+            (charts) => {
+                this.charts = charts
+            }
+        )
+
+        this.reactionUpdateSerial = reaction(
             () => appStorage.serialManager.availablePorts,
-            (change) => this.updateSerialPorts(change)
+            (resources) => this.updateStreams(resources, "serial")
+        )
+        this.reactionUpdateGenerators = reaction(
+            () => appStorage.generatorsManager.generators,
+            (resources) => this.updateStreams(resources, "generator")
         )
     }
 
-    updateSerialPorts(serialPorts) {
-        this.serialStreams = [...serialPorts]
+    updateStreams(resources, type) {
+        this.generatorStreams = resources.map((element, index) =>
+            new DataStream({type: type, id: index, resource: element, charts: this.charts})
+        )
     }
 
     // async readStream(reader) {
