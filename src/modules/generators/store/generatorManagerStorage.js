@@ -6,6 +6,9 @@ class GeneratorsManager {
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    init() {
         let configs = JSON.parse(localStorage.getItem("generators"))
         if (!configs) return
         configs = configs.filter((element) => element !== null)
@@ -15,7 +18,7 @@ class GeneratorsManager {
     }
 
     newGenerator() {
-        this.generators.push(new Generator({id: this.generators.length, manager: this}))
+        this.generators = [...this.generators, new Generator({id: this.generators.length, manager: this})]
     }
 
     removeGenerator(generator) {
