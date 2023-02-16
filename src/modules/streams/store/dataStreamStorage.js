@@ -19,6 +19,8 @@ class DataStream {
     handler(data) {
         this.countData += 1
         for (let chart of this.charts) {
+            if (chart.subscribeDataStreamType !== this.type || chart.subscribeDataStreamId !== this.id.toString())
+                continue
             chart.updateData(data)
         }
     }
