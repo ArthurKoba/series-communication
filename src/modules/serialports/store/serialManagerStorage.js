@@ -29,7 +29,7 @@ class SerialManagerStorage {
         for (let port of ports) {
             let portInfo = port.getInfo()
             let config = configs.find((element) => element.id === getPortId(portInfo))
-            config = config? {...config, ...portInfo} : {...portInfo}
+            config = config? {...config, ...portInfo, manager: this} : {...portInfo, manager: this}
             availablePorts.push(new SerialPortStorage(port, config))
         }
         action((data) => this.availablePorts = data)(availablePorts)
