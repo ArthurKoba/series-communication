@@ -18,11 +18,16 @@ class ChartStorage {
     chart = null
     data = {type: "line", options: {...defaultOptions}, data: {...data}}
 
+    subscribeDataStreamType = null
+    subscribeDataStreamId = null
+
     constructor({manager, configs}) {
         this.id = configs.id
         this.data.type = configs?.type || "line"
         this.isFullScreen = configs?.isFullScreen || false
         this.isConfigurationOpened = configs?.isConfigurationOpened || false
+        this.subscribeDataStreamType = configs?.subscribeDataStreamType
+        this.subscribeDataStreamId = configs?.subscribeDataStreamId
         this.manager = manager
         this.updateData = this.updateData.bind(this)
         makeAutoObservable(this)
@@ -69,11 +74,25 @@ class ChartStorage {
         this.updateConfigs()
     }
 
+    setSubscribeDataStreamType(type) {
+        this.subscribeDataStreamType = type
+        this.updateConfigs()
+    }
+
+    setSubscribeDataStreamId(id) {
+        console.log(id)
+        this.subscribeDataStreamId = id
+        this.updateConfigs()
+    }
+
     updateConfigs() {
-        this.manager.updateChartConfig({
+        const config = {
             id: this.id, fullscreen: this.isFullScreen, type: this.data.type,
-            isConfigurationOpened: this.isConfigurationOpened
-        })
+            isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
+            subscribeDataStreamId: this.subscribeDataStreamId
+        }
+        console.log(config)
+        this.manager.updateChartConfig(config)
     }
 
     resetScales() {
