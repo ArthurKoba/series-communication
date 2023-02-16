@@ -14,24 +14,27 @@ class DataStreamManager {
 
         this.reactionUpdateCharts = reaction(
             () => appStorage.chartsManager.charts,
-            (charts) => {
-                this.charts = charts
-            }
+            (charts) => this.charts = charts
         )
-
         this.reactionUpdateSerial = reaction(
             () => appStorage.serialManager.availablePorts,
-            (resources) => this.updateStreams(resources, "serial")
+            (resources) => this.updateSerialStreams(resources)
         )
         this.reactionUpdateGenerators = reaction(
             () => appStorage.generatorsManager.generators,
-            (resources) => this.updateStreams(resources, "generator")
+            (resources) => this.updateGeneratorStreams(resources)
         )
     }
 
-    updateStreams(resources, type) {
-        this.generatorStreams = resources.map((element, index) =>
-            new DataStream({type: type, id: index, resource: element, charts: this.charts})
+    updateGeneratorStreams(resources) {
+        this.generatorStreams = resources.map((element) =>
+            new DataStream({type: "generator", id: element.id, resource: element, charts: this.charts})
+        )
+    }
+
+    updateSerialStreams(resources) {
+        this.serialStreams = resources.map((element) =>
+            new DataStream({type: "serial", id: element.id, resource: element, charts: this.charts})
         )
     }
 

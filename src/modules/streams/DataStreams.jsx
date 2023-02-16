@@ -7,7 +7,8 @@ import appStorage from "../../appStorage";
 const DataStreams = () => {
     return (
         <Container fluid className="row">
-            <DataStreamList serial={appStorage.streamsManager.serialStreams}/>
+            <DataStreamList name="serial streams" resource={appStorage.streamsManager.serialStreams}/>
+            <DataStreamList name="generators streams" resource={appStorage.streamsManager.generatorStreams}/>
         </Container>
     );
 };

@@ -4,11 +4,12 @@ import {Container} from "react-bootstrap";
 import DataStreamItem from "./DataStreamItem";
 import {observer} from "mobx-react-lite";
 
-const DataStreamList = observer(({serial}) => {
+const DataStreamList = observer(({name, resource}) => {
     return (
-        <Container fluid>
+        <Container fluid className="row text-center">
+            <h2>{name}</h2>
             {
-                serial.map((element, index) => <DataStreamItem key={index} stream={element}/>)
+                resource.map((element, index) => <DataStreamItem key={index} stream={element}/>)
             }
         </Container>
     );
