@@ -1,6 +1,7 @@
 import {reaction} from "mobx";
 
 import DataStream from "./dataStreamStorage";
+import {streamTypes} from "../streamTypes";
 
 
 class DataStreamManager {
@@ -28,13 +29,13 @@ class DataStreamManager {
 
     updateGeneratorStreams(resources) {
         this.generatorStreams = resources.map((element) =>
-            new DataStream({type: "generator", id: element.id, resource: element, charts: this.charts})
+            new DataStream({type: streamTypes.generator, id: element.id, resource: element, charts: this.charts})
         )
     }
 
     updateSerialStreams(resources) {
         this.serialStreams = resources.map((element) =>
-            new DataStream({type: "serial", id: element.id, resource: element, charts: this.charts})
+            new DataStream({type: streamTypes.serial, id: element.id, resource: element, charts: this.charts})
         )
     }
 
