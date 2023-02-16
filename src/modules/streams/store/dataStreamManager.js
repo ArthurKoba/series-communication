@@ -1,4 +1,4 @@
-import {reaction} from "mobx";
+import {makeAutoObservable, reaction} from "mobx";
 
 import DataStream from "./dataStreamStorage";
 import {streamTypes} from "../streamTypes";
@@ -9,7 +9,9 @@ class DataStreamManager {
     generatorStreams = []
     charts = []
 
-    constructor() {}
+    constructor() {
+        makeAutoObservable(this)
+    }
 
     init(appStorage) {
 
