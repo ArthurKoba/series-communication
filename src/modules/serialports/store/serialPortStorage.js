@@ -25,19 +25,22 @@ class SerialPortItemStorage {
         if (configs?.isConnected) this.connect()
     }
 
-    onConnect() {
+    onConnect(error) {
+
         this.isConnected = true
         this.isConnecting = false
         this.manager.updateConfigs()
+        if (!error || !this.readerTask)
+            this.readerTask = this.dataReader()
+
     }
 
     connect() {
         this.isConnecting = true
-        this.portObject.open({baudRate: this.baudRate}).then(this.onConnect).catch(() => this.onConnect())
+        this.portObject.open({baudRate: this.baudRate}).then(this.onConnect).catch((e) => this.onConnect(e))
     }
 
     disconnect() {
-        this.portObject.close()
         this.isConnected = false
         this.manager.updateConfigs()
     }
@@ -55,8 +58,33 @@ class SerialPortItemStorage {
     }
 
     setHandler(handler) {
-
+        this.handler = handler
     }
+
+    async dataHandler(buffer) {
+        const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
+        const string = new TextDecoder().decode(byteBuffer)
+        console.log(string)
+    }
+
+    async dataReader() {
+        this.reader = this.portObject.readable.getReader()
+        let buffer = []
+        while (this.isConnected) {
+            let data = await this.reader.read()
+            for (let byte of data.value) {
+                buffer.push(byte)
+                if (byte === 10) {
+                    await this.dataHandler(buffer)
+                    buffer = []
+                }
+            }
+        }
+        await this.reader.cancel()
+        this.portObject.close()
+        this.readerTask = null
+    }
+
 
     getConfigs() {
         return {name: this.name, baudRate: this.baudRate, id: this.id, isConnected: this.isConnected}
