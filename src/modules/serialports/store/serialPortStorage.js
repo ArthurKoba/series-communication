@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {cobsDecode} from "../../cobs/decoder";
 
 export function checkBaudRate(value) {
     return Number.isInteger(value) && value > 0 && value < 10000000
@@ -64,12 +65,16 @@ class SerialPortItemStorage {
     }
 
     async dataHandler(buffer) {
-        console.log(buffer)
-        let data = cobsDecode(buffer);
-        console.log(data)
-        // const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
-        // const string = new TextDecoder().decode(byteBuffer)
-        // console.log(string)
+        let cobsData = cobsDecode(buffer);
+        if (cobsData.length) {
+            console.log(cobsData)
+        } else {
+            console.log("No cobs data")
+            const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
+            const string = new TextDecoder().decode(byteBuffer)
+            console.log(string)
+        }
+        this.disconnect()
     }
 
     async dataReader() {
