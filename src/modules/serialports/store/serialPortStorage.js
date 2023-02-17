@@ -22,17 +22,19 @@ class SerialPortItemStorage {
         this.portObject = portObject
         this.onConnect = this.onConnect.bind(this)
         makeAutoObservable(this)
-        if (configs?.isConnected) this.connect()
+        // if (configs?.isConnected) this.connect()
     }
 
     onConnect(error) {
-
-        this.isConnected = true
         this.isConnecting = false
+        this.manager.updateConfigs()
+        if (error && !error.message.includes("port is already open")) {
+            return console.error(error)
+        }
+        this.isConnected = true
         this.manager.updateConfigs()
         if (!error || !this.readerTask)
             this.readerTask = this.dataReader()
-
     }
 
     connect() {
@@ -62,13 +64,17 @@ class SerialPortItemStorage {
     }
 
     async dataHandler(buffer) {
-        const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
-        const string = new TextDecoder().decode(byteBuffer)
-        console.log(string)
+        console.log(buffer)
+        let data = cobsDecode(buffer);
+        console.log(data)
+        // const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
+        // const string = new TextDecoder().decode(byteBuffer)
+        // console.log(string)
     }
 
     async dataReader() {
-        this.reader = this.portObject.readable.getReader()
+        if (!this.reader)
+            this.reader = this.portObject.readable.getReader()
         let buffer = []
         while (this.isConnected) {
             let data = await this.reader.read()
@@ -81,6 +87,7 @@ class SerialPortItemStorage {
             }
         }
         await this.reader.cancel()
+        this.reader = null
         this.portObject.close()
         this.readerTask = null
     }
