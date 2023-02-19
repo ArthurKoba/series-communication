@@ -67,7 +67,7 @@ class SerialPortItemStorage {
     async dataHandler(buffer) {
         let cobsData = cobsDecoder.decode(buffer);
         if (cobsData.length) {
-            console.log(cobsData)
+            let packet = serialPortInteraction.parsePacket(cobsData)
         } else {
             console.log("No cobs data")
             const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
