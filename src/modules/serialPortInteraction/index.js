@@ -1,4 +1,5 @@
 import {SerialPortInteraction} from './serialPortInteraction'
+import {PacketDataType} from './packetDataType'
 
 const serialPortInteraction = new SerialPortInteraction()
 
@@ -8,5 +9,7 @@ serialPortInteraction.setPacketConfig({
 })
 
 export {
-    SerialPortInteraction, serialPortInteraction
+    SerialPortInteraction,
+    serialPortInteraction,
+    PacketDataType
 }
