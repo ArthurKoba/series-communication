@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {cobsDecoder} from "../../cobs/decoder";
+import {serialPortInteraction} from "../../serialPortInteraction";
 
 export function checkBaudRate(value) {
     return Number.isInteger(value) && value > 0 && value < 10000000
@@ -68,6 +69,7 @@ class SerialPortItemStorage {
         let cobsData = cobsDecoder.decode(buffer);
         if (cobsData.length) {
             let packet = serialPortInteraction.parsePacket(cobsData)
+            console.log(packet)
         } else {
             console.log("No cobs data")
             const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
@@ -82,6 +84,10 @@ class SerialPortItemStorage {
             this.reader = this.portObject.readable.getReader()
         let buffer = []
         while (this.isConnected) {
+            if (buffer.length > 65536 + 5) {
+                await this.dataHandler(buffer)
+                buffer = []
+            }
             let data = await this.reader.read()
             for (let byte of data.value) {
                 buffer.push(byte)
