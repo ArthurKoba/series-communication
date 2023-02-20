@@ -83,7 +83,7 @@ export class SerialReader {
                 let {value} = await reader.read()
                 for (let byte of value) {
                     buffer.push(byte)
-                    if (byte === 10) {
+                    if (byte === cobsDecoder.getDelimiter()) {
                         this.dataHandler(buffer)
                         buffer = []
                     }
