@@ -21,8 +21,11 @@ export class CobsDecoder {
             if (code === undefined) return []
             if (code === this.#delimiter) return dest
             if (this.#delimiter !== 0 && code === 0) code = this.#delimiter
-            for (let j = 1; j < code; j++) dest.push(buffer[i++])
-            if (buffer[buffer.length-1] === undefined) return []
+            for (let j = 1; j < code; j++) {
+                let byte = buffer[i++]
+                if (byte === undefined) return []
+                dest.push(byte)
+            }
             if (code < this.#codeDepth && i < buffer.length - 1) dest.push(this.#delimiter)
         }
         return dest
