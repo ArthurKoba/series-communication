@@ -35,7 +35,8 @@ class ChartStorage {
         this.chart = new Chart(ctx, this.data)
     }
 
-    async updateData({dataType, data}) {
+    async updateData({dataName, data}) {
+        console.log(dataName)
         if (this.isBusy) return
         this.isBusy = true
         if (this.data.data.labels.length !== data.length) {

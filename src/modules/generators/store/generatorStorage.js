@@ -32,7 +32,7 @@ class Generator {
                 for (index; index < stopIndex && this.isEnabled; index++) {
                     data.push(Math.sin(this.frequency * index))
                 }
-                this.handler({dataType: null, data: data})
+                this.handler({dataName: null, data: data})
             }
             await new Promise(resolve => setTimeout(resolve, this.delayMs));
         }

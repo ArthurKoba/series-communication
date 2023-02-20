@@ -51,7 +51,7 @@ export class SerialReader {
         if (cobsData.length) {
             try {
                 let packet = serialPortInteraction.parsePacket(cobsData)
-                if (this.handler) this.handler({dataType: packet.name, data: packet.data})
+                if (this.handler) this.handler({dataName: packet.name, data: packet.data})
             } catch (e) {
                 console.warn("packet parse failed")
             }
