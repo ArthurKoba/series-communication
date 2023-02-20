@@ -14,6 +14,10 @@ export class CobsDecoder {
         this.#delimiter = value
     }
 
+    getDelimiter() {
+        return this.#delimiter
+    }
+
     decode(buffer) {
         let dest = []
         for (let i = 0; i < buffer.length;) {
