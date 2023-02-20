@@ -3,6 +3,7 @@ import {Button, Container, Form, InputGroup} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
 import SelectChartType from "./ui/SelectChartType";
+import ModalRemoveChartButton from "./ui/ModalRemoveChartButton";
 import SelectDataStreamType from "./ui/SelectDataStreamType";
 import SelectDataStream from "./ui/SelectDataStream";
 
@@ -11,6 +12,7 @@ const ChartItemConfiguration = observer(({chart}) => {
     const [minScale, setMinScale] = useState("")
     const [minScaleInvalid, setMinScaleInvalid] = useState(false)
     const [maxScaleInvalid, setMaxScaleInvalid] = useState(false)
+    const [showRemoveModal, setShowRemoveModal] = useState(false)
 
     const changeMaxScale = (value) => {
         setMaxScale(value)
@@ -32,6 +34,9 @@ const ChartItemConfiguration = observer(({chart}) => {
         <Container fluid className="row p-1">
             <Container fluid className="p-1 row col-6">
                 <SelectChartType chart={chart}/>
+                <Button size="sm" variant="danger" onClick={() => setShowRemoveModal(true)}>
+                    Remove
+                </Button>
                 <Button onClick={() => chart.click()}>click</Button>
                 <InputGroup size="sm" className="mb-2">
                     <InputGroup.Text>Min scale</InputGroup.Text>
@@ -50,6 +55,12 @@ const ChartItemConfiguration = observer(({chart}) => {
                 <SelectDataStreamType chart={chart}/>
                 <SelectDataStream chart={chart}/>
             </Container>
+
+            <ModalRemoveChartButton
+                show={showRemoveModal}
+                handleClose={() => setShowRemoveModal(false)}
+                handleConfirm={chart.remove}
+            />
         </Container>
     );
 });
