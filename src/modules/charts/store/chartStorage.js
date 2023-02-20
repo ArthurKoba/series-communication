@@ -19,6 +19,7 @@ class ChartStorage {
     data = {type: "line", options: {...defaultOptions}, data: {...data}}
 
     availableDataNames = []
+    fps = 0
 
     constructor({manager, configs}) {
         this.id = configs.id
@@ -47,10 +48,11 @@ class ChartStorage {
             this.data.data.labels = [...Array(data.length).keys()].map(i => i+1)
         }
         this.data.data.datasets[0].data = data
-        let startTime = new Date()
+        let timer = new Date()
         this.chart?.update()
-        let endTime = new Date() - startTime
-        console.log("show time: ", endTime)
+        timer = new Date() - timer
+        if (!this.fps) this.fps = Math.round(1000/timer)
+        else this.fps += Math.round((1000/timer - this.fps)/20)
         this.isBusy = false
     }
 
