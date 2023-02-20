@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {action, makeAutoObservable} from "mobx";
 
 
 class DataStream {
@@ -16,8 +16,10 @@ class DataStream {
         makeAutoObservable(this)
     }
 
+    addCount = action ((value = 1) => {this.countData += value})
+
     handler(data) {
-        this.countData += 1
+        this.addCount()
         for (let chart of this.charts) {
             if (chart.subscribeDataStreamType !== this.type || chart.subscribeDataStreamId !== this.id.toString())
                 continue
