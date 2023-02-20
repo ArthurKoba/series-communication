@@ -93,8 +93,7 @@ export class SerialReader {
                 reader = null
             }
         }
-        console.log("Остановка задачи")
-        await reader.cancel()
+        if (reader !== null) await reader.cancel()
         this.needStop = null
     }
 }
