@@ -5,11 +5,10 @@ export class SerialReader {
     constructor({port}) {
         this.port = port
         this.isPortOpened = false
+        this.handler = null
     }
 
-    setHandler(handler) {
-
-    }
+    setHandler = (handler) => this.handler = handler
 
     async openPort(baudRate) {
         await this.port.open({
@@ -52,11 +51,7 @@ export class SerialReader {
         if (cobsData.length) {
             try {
                 let packet = serialPortInteraction.parsePacket(cobsData)
-                let dataValid = true
-                for (let i = 0; i < packet.data; i++) {
-                    if (packet.data[i] !== i) dataValid = false
-                }
-                console.log(packet, "Data valid: ", dataValid)
+                if (this.handler) this.handler({dataType: packet.name, data: packet.data})
             } catch (e) {
                 console.warn("packet parse failed")
             }
