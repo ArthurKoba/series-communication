@@ -1,6 +1,5 @@
-import {makeAutoObservable} from "mobx";
-import {cobsDecoder} from "../../cobs/decoder";
-import {serialPortInteraction} from "../../serialPortInteraction";
+import {action, makeAutoObservable} from "mobx";
+import {SerialReader} from "../serialReader";
 
 export function checkBaudRate(value) {
     return Number.isInteger(value) && value > 0 && value < 10000000
@@ -11,9 +10,6 @@ class SerialPortItemStorage {
     isConnected = false
     isConnecting = false
 
-    name = null
-    baudRate = 0
-
     constructor(portObject, configs = {}) {
         this.id = configs.id
         this.manager = configs.manager
@@ -22,31 +18,51 @@ class SerialPortItemStorage {
         this.usbProductId = configs?.usbProductId
         this.usbVendorId = configs?.usbVendorId
         this.portObject = portObject
-        this.onConnect = this.onConnect.bind(this)
+        this.connect = this.connect.bind(this)
+        this.disconnect = this.disconnect.bind(this)
+        this.serialReader = new SerialReader({port: this.portObject})
         makeAutoObservable(this)
-        // if (configs?.isConnected) this.connect()
+        if (configs?.isConnected) this.connect().then(() => {})
     }
 
-    onConnect(error) {
-        this.isConnecting = false
-        this.manager.updateConfigs()
-        if (error && !error.message.includes("port is already open")) {
-            return console.error(error)
+    setState = action((state) => {
+        switch (state) {
+            case "CONNECTING":
+                this.isConnected = false
+                this.isConnecting = true
+                break
+            case "CONNECTED":
+                this.isConnected = true
+                this.isConnecting = false
+                break
+            case "DISCONNECTED":
+                this.isConnecting = false
+                this.isConnected = false
+                break
         }
-        this.isConnected = true
         this.manager.updateConfigs()
-        if (!error || !this.readerTask)
-            this.readerTask = this.dataReader()
+    })
+
+    setHandler = (handler) => this.serialReader.setHandler(handler)
+
+    async connect() {
+        if (this.isConnected || this.isConnecting) return
+        this.setState("CONNECTING")
+        try {
+            await this.serialReader.openPort(this.baudRate)
+            this.setState("CONNECTED")
+        } catch (error) {
+            console.error(error)
+            this.setState("DISCONNECTED")
+        }
+        if (!this.isConnected) return
+        this.serialReader.startReader().then(() => this.disconnect())
     }
 
-    connect() {
-        this.isConnecting = true
-        this.portObject.open({baudRate: this.baudRate}).then(this.onConnect).catch((e) => this.onConnect(e))
-    }
-
-    disconnect() {
-        this.isConnected = false
-        this.manager.updateConfigs()
+    async disconnect() {
+        if (!this.isConnected) return
+        await this.serialReader.stopRequest()
+        this.setState("DISCONNECTED")
     }
 
     setName(newName) {
@@ -60,49 +76,6 @@ class SerialPortItemStorage {
         this.baudRate = baudRate
         this.manager.updateConfigs()
     }
-
-    setHandler(handler) {
-        this.handler = handler
-    }
-
-    async dataHandler(buffer) {
-        let cobsData = cobsDecoder.decode(buffer);
-        if (cobsData.length) {
-            let packet = serialPortInteraction.parsePacket(cobsData)
-            console.log(packet)
-        } else {
-            console.log("No cobs data")
-            const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
-            const string = new TextDecoder().decode(byteBuffer)
-            console.log(string)
-        }
-        this.disconnect()
-    }
-
-    async dataReader() {
-        if (!this.reader)
-            this.reader = this.portObject.readable.getReader()
-        let buffer = []
-        while (this.isConnected) {
-            if (buffer.length > 65536 + 5) {
-                await this.dataHandler(buffer)
-                buffer = []
-            }
-            let data = await this.reader.read()
-            for (let byte of data.value) {
-                buffer.push(byte)
-                if (byte === 10) {
-                    await this.dataHandler(buffer)
-                    buffer = []
-                }
-            }
-        }
-        await this.reader.cancel()
-        this.reader = null
-        this.portObject.close()
-        this.readerTask = null
-    }
-
 
     getConfigs() {
         return {name: this.name, baudRate: this.baudRate, id: this.id, isConnected: this.isConnected}
