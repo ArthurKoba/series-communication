@@ -6,6 +6,7 @@ import SelectChartType from "./ui/SelectChartType";
 import ModalRemoveChartButton from "./ui/ModalRemoveChartButton";
 import SelectDataStreamType from "./ui/SelectDataStreamType";
 import SelectDataStream from "./ui/SelectDataStream";
+import SelectDataName from "./ui/SelectDataName";
 
 const ChartItemConfiguration = observer(({chart}) => {
     const [maxScale, setMaxScale] = useState("")
@@ -54,6 +55,7 @@ const ChartItemConfiguration = observer(({chart}) => {
             <Container fluid className="p-1 row col-6">
                 <SelectDataStreamType chart={chart}/>
                 <SelectDataStream chart={chart}/>
+                <SelectDataName chart={chart}/>
             </Container>
 
             <ModalRemoveChartButton

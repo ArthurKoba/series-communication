@@ -18,6 +18,8 @@ class ChartStorage {
     chart = null
     data = {type: "line", options: {...defaultOptions}, data: {...data}}
 
+    availableDataNames = []
+
     constructor({manager, configs}) {
         this.id = configs.id
         this.data.type = configs?.type || "line"
@@ -25,6 +27,7 @@ class ChartStorage {
         this.isConfigurationOpened = configs?.isConfigurationOpened || false
         this.subscribeDataStreamType = configs?.subscribeDataStreamType || ""
         this.subscribeDataStreamId = configs?.subscribeDataStreamId || ""
+        this.selectedDataName = configs?.selectedDataName || null
         this.manager = manager
         this.updateData = this.updateData.bind(this)
         makeAutoObservable(this)
@@ -36,8 +39,9 @@ class ChartStorage {
     }
 
     async updateData({dataName, data}) {
-        console.log(dataName)
-        if (this.isBusy) return
+        if (dataName && !this.availableDataNames.includes(dataName))
+            this.availableDataNames.push(dataName)
+        if (this.isBusy || this.selectedDataName && this.selectedDataName !== dataName) return
         this.isBusy = true
         if (this.data.data.labels.length !== data.length) {
             this.data.data.labels = [...Array(data.length).keys()].map(i => i+1)
@@ -78,8 +82,12 @@ class ChartStorage {
     }
 
     setSubscribeDataStreamId(id) {
-        console.log(id)
         this.subscribeDataStreamId = id
+        this.updateConfigs()
+    }
+
+    setDataName(name) {
+        this.selectedDataName = name? name : null
         this.updateConfigs()
     }
 
@@ -87,9 +95,8 @@ class ChartStorage {
         const config = {
             id: this.id, fullscreen: this.isFullScreen, type: this.data.type,
             isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
-            subscribeDataStreamId: this.subscribeDataStreamId
+            subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName
         }
-        console.log(config)
         this.manager.updateChartConfig(config)
     }
 
