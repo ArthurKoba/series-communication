@@ -1,6 +1,5 @@
 import React from 'react';
 import {Form} from "react-bootstrap";
-import {chartTypes} from "../../strategies/types";
 
 const SelectChartType = ({chart}) => {
 
