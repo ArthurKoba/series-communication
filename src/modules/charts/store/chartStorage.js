@@ -28,7 +28,8 @@ class ChartStorage {
         this.isConfigurationOpened = configs?.isConfigurationOpened || false
         this.subscribeDataStreamType = configs?.subscribeDataStreamType || ""
         this.subscribeDataStreamId = configs?.subscribeDataStreamId || ""
-        this.selectedDataName = configs?.selectedDataName || null
+        this.selectedDataName = configs?.selectedDataName || ""
+        this.selectedDataName && this.availableDataNames.push(this.selectedDataName)
         this.manager = manager
         this.updateData = this.updateData.bind(this)
         makeAutoObservable(this)
@@ -89,7 +90,7 @@ class ChartStorage {
     }
 
     setDataName(name) {
-        this.selectedDataName = name? name : null
+        this.selectedDataName = name
         this.updateConfigs()
     }
 
