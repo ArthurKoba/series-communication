@@ -36,6 +36,7 @@ class ChartStorage {
         this.chart = new Chart(ctx, this.data)
     }
 
+    updateFps = action((newFps) => this.fps = newFps)
     async updateData({dataName, data}) {
         if (dataName && !this.availableDataNames.includes(dataName))
             this.availableDataNames.push(dataName)
@@ -48,8 +49,8 @@ class ChartStorage {
         let timer = new Date()
         this.chart?.update()
         timer = new Date() - timer
-        if (!this.fps) this.fps = Math.round(1000/timer)
-        else this.fps += Math.round((1000/timer - this.fps)/20)
+        if (!this.fps) this.updateFps(Math.round(1000/timer))
+        else this.updateFps(this.fps + Math.round((1000/timer - this.fps)/20))
         this.isBusy = false
     }
 
