@@ -10,6 +10,7 @@ class Generator {
         this.id = configs.id
         this.manager = configs.manager
         this.frequency = configs?.frequency || 0.1
+        this.amplitude = configs?.amplitude || 1
         this.lengthData = configs?.lengthData || 10
         this.delayMs = configs?.delayMs || 10
         this.isEnabled = configs?.isEnabled
@@ -22,6 +23,11 @@ class Generator {
         this.updateConfigs()
     }
 
+    setAmplitude(value) {
+        this.amplitude = value
+        this.updateConfigs()
+    }
+
     async startTask() {
         if (this.task !== null) return
         let index = 0
@@ -30,7 +36,8 @@ class Generator {
                 let data = []
                 let stopIndex = index + this.lengthData
                 for (index; index < stopIndex && this.isEnabled; index++) {
-                    data.push(Math.sin(this.frequency * index))
+                    let value = Math.sin(this.frequency * index) * this.amplitude
+                    data.push(value)
                 }
                 this.handler({dataName: null, data: data})
             }
@@ -42,7 +49,7 @@ class Generator {
     updateConfigs() {
         this.manager.updateGeneratorConfig({
             id: this.id, frequency: this.frequency, isEnabled: this.isEnabled,
-            lengthData: this.lengthData, delayMs: this.delayMs
+            lengthData: this.lengthData, delayMs: this.delayMs, amplitude: this.amplitude
         })
     }
 

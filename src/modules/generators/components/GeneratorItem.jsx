@@ -7,6 +7,9 @@ const GeneratorItem = observer(({generator}) => {
     const [frequency, setFrequency] = useState("");
     const [frequencyInvalid, setFrequencyInvalid] = useState(false)
 
+    const [amplitude, setAmplitude] = useState("");
+    const [amplitudeInvalid, setAmplitudeInvalid] = useState(false)
+
     const [lengthData, setLengthData] = useState("");
     const [lengthDataInvalid, setLengthDataInvalid] = useState(false)
 
@@ -37,10 +40,27 @@ const GeneratorItem = observer(({generator}) => {
         generator.setDelayMs(value)
     }
 
+    const handlerSetAmplitude = (value) => {
+        setAmplitude(value)
+        value = parseInt(value)
+        if (isNaN(value) || value < 1) return setAmplitudeInvalid(true)
+        setAmplitudeInvalid(false)
+        generator.setAmplitude(value)
+    }
+
     return (
         <Container fluid className="col-5 mt-2">
             <Card>
                 <Card.Body className="row">
+                    <InputGroup size="sm" className="mb-2">
+                        <InputGroup.Text>Amplitude</InputGroup.Text>
+                        <Form.Control
+                            onChange={(e) => handlerSetAmplitude(e.target.value)}
+                            placeholder={generator.amplitude}
+                            isInvalid={amplitudeInvalid}
+                            value={amplitude}
+                        />
+                    </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Frequency</InputGroup.Text>
                         <Form.Control
