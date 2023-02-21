@@ -2,18 +2,21 @@ import {action, makeAutoObservable} from "mobx";
 
 
 class DataStream {
-
     charts = []
     countData = 0
 
-    constructor(config) {
-        this.id = config.id
-        this.resource = config.resource
-        this.type = config.type
+    constructor({type, resource, appStorage}) {
+        this.id = resource.id
+        this.resource = resource
+        this.type = type
+        this.charts = appStorage.chartsManager.charts
         this.handler = this.handler.bind(this)
-        this.charts = config.charts
         this.resource.setHandler(this.handler)
         makeAutoObservable(this)
+    }
+
+    updateCharts(charts) {
+        this.charts = charts
     }
 
     addCount = action ((value = 1) => {this.countData += value})
