@@ -33,6 +33,10 @@ class ChartManager {
         ))
     }
 
+    resetConfigs() {
+        this.charts = []
+        localStorage.setItem("charts", "[]")
+    }
 }
 
 export default ChartManager
