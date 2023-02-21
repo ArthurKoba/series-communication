@@ -1,25 +1,19 @@
 import {action, makeAutoObservable} from "mobx";
-import Chart from "chart.js/auto";
+import HighCharts from "highcharts"
 
-import {defaultOptions} from "../configs/chartjsdefault"
+import {defaultConfigHighCharts} from "../configs/highChartsConfigDefault"
 
-const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [
-        {data: [12, 19, 3, 5, 2, 3]}
-    ]
-}
 
 class ChartStorage {
     chart = null
-    data = {type: "line", options: {...defaultOptions}, data: {...data}}
+    chartConfig = {...defaultConfigHighCharts, }
 
     availableDataNames = []
     fps = 0
 
     constructor({manager, configs}) {
         this.id = configs.id
-        this.data.type = configs?.type || "line"
+        // this.data.type = configs?.type || "line"
         this.isFullScreen = configs?.isFullScreen || false
         this.isConfigurationOpened = configs?.isConfigurationOpened || false
         this.subscribeDataStreamType = configs?.subscribeDataStreamType || ""
@@ -31,23 +25,22 @@ class ChartStorage {
         makeAutoObservable(this)
     }
 
-    setCtx(ctx) {
-        if (Chart.getChart(ctx)) return
-        this.chart = new Chart(ctx, this.data)
+    setContainer(containerNode) {
+        if (this.chart) this.chart.destroy()
+        this.chart = new HighCharts.chart(containerNode, this.chartConfig)
     }
 
     updateFps = action((newFps) => this.fps = newFps)
+
     async updateData({dataName, data}) {
         if (dataName && !this.availableDataNames.includes(dataName))
             this.availableDataNames.push(dataName)
-        if (this.isBusy || this.selectedDataName && this.selectedDataName !== dataName) return
+        if (this.isBusy || !this.chart) return
+        if (this.selectedDataName && this.selectedDataName !== dataName) return
         this.isBusy = true
-        if (this.data.data.labels.length !== data.length) {
-            this.data.data.labels = [...Array(data.length).keys()].map(i => i+1)
-        }
-        this.data.data.datasets[0].data = data
         let timer = new Date()
-        this.chart?.update()
+        this.chart.series[0].setData(data, true)
+        // this.chart.series[1].setData(data, true)
         timer = new Date() - timer
         if (!this.fps) this.updateFps(Math.round(1000/timer))
         else this.updateFps(this.fps + Math.round((1000/timer - this.fps)/20))
@@ -55,14 +48,14 @@ class ChartStorage {
     }
 
     click() {
-        this.chart.data.datasets[0].data = [1, 2, 3]
+        // this.chart.data.datasets[0].data = [1, 2, 3]
         this.chart.data.labels = ["1", "3", "2"]
-        this.chart?.update()
+        // this.chart?.update()
     }
 
     setType(type) {
-        this.data.type = type
-        this.chart?.update()
+        // this.data.type = type
+        // this.chart?.update()
         this.manager.updateChartsConfigs(this.id)
     }
 
@@ -98,31 +91,31 @@ class ChartStorage {
 
     getConfig() {
         return  {
-            id: this.id, isFullScreen: this.isFullScreen, type: this.data.type,
+            id: this.id, isFullScreen: this.isFullScreen, type: null,
             isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
             subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName
         }
     }
 
     resetScales() {
-        let min = Math.min(...this.chart.data.datasets.map((dataset) => Math.min(...dataset.data)))
-        let max = Math.max(...this.chart.data.datasets.map((dataset) => Math.max(...dataset.data)))
-        this.setScales({min: min, max: max})
+        // let min = Math.min(...this.chart.data.datasets.map((dataset) => Math.min(...dataset.data)))
+        // let max = Math.max(...this.chart.data.datasets.map((dataset) => Math.max(...dataset.data)))
+        // this.setScales({min: min, max: max})
     }
 
     setMaxScale(value) {
-        this.data.options.scales.y.max = value
-        this.chart?.update()
+        // this.data.options.scales.y.max = value
+        // this.chart?.update()
     }
 
     setMinScale(value) {
-        this.data.options.scales.y.min = value
-        this.chart?.update()
+        // this.data.options.scales.y.min = value
+        // this.chart?.update()
     }
 
     setScales({min, max}) {
-        this.data.options.scales.y = {min: min, max: max}
-        this.chart?.update()
+        // this.data.options.scales.y = {min: min, max: max}
+        // this.chart?.update()
     }
 }
 
