@@ -10,6 +10,8 @@ class ChartStorage {
 
     availableDataNames = []
     fps = 0
+    yAxisMax = undefined
+    yAxisMin = undefined
 
     constructor({manager, configs}) {
         this.id = configs.id
@@ -98,25 +100,15 @@ class ChartStorage {
     }
 
     resetScales() {
-        // let min = Math.min(...this.chart.data.datasets.map((dataset) => Math.min(...dataset.data)))
-        // let max = Math.max(...this.chart.data.datasets.map((dataset) => Math.max(...dataset.data)))
-        // this.setScales({min: min, max: max})
+        this.setAxisScalesY({min: undefined, max: undefined})
     }
 
-    setMaxScale(value) {
-        // this.data.options.scales.y.max = value
-        // this.chart?.update()
+    setAxisScalesY({min, max}) {
+        this.chart.yAxis[0].update(
+            {min: this.yAxisMin = min, max: this.yAxisMax = max}
+        )
     }
 
-    setMinScale(value) {
-        // this.data.options.scales.y.min = value
-        // this.chart?.update()
-    }
-
-    setScales({min, max}) {
-        // this.data.options.scales.y = {min: min, max: max}
-        // this.chart?.update()
-    }
 }
 
 export default ChartStorage

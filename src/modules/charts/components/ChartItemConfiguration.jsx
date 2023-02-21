@@ -20,7 +20,7 @@ const ChartItemConfiguration = observer(({chart}) => {
         value = parseFloat(value)
         if (isNaN(value)) return setMaxScaleInvalid(true)
         setMaxScaleInvalid(false)
-        chart.setMaxScale(value)
+        chart.setAxisScalesY({max: value, min: chart.yAxisMin})
     }
 
     const changeMinScale = (value) => {
@@ -28,7 +28,12 @@ const ChartItemConfiguration = observer(({chart}) => {
         value = parseFloat(value)
         if (isNaN(value)) return setMinScaleInvalid(true)
         setMinScaleInvalid(false)
-        chart.setMinScale(value)
+        chart.setAxisScalesY({max: chart.yAxisMax, min: value})
+    }
+
+    const removeInput = () => {
+        setMinScale("")
+        setMaxScale("")
     }
 
     return (
@@ -40,15 +45,19 @@ const ChartItemConfiguration = observer(({chart}) => {
                 </Button>
                 <Button onClick={() => chart.click()}>click</Button>
                 <InputGroup size="sm" className="mb-2">
-                    <InputGroup.Text>Min scale</InputGroup.Text>
-                    <Form.Control onChange={(e) => changeMinScale(e.target.value)}
-                                  value={minScale} isInvalid={minScaleInvalid}
+                    <InputGroup.Text>Max scale</InputGroup.Text>
+                    <Form.Control onChange={(e) => changeMaxScale(e.target.value)}
+                                  onBlur={removeInput}
+                                  placeholder={chart.yAxisMax !== undefined? chart.yAxisMax : "auto"}
+                                  value={maxScale} isInvalid={maxScaleInvalid}
                     />
                 </InputGroup>
                 <InputGroup size="sm" className="mb-2">
-                    <InputGroup.Text>Max scale</InputGroup.Text>
-                    <Form.Control onChange={(e) => changeMaxScale(e.target.value)}
-                                  value={maxScale} isInvalid={maxScaleInvalid}
+                    <InputGroup.Text>Min scale</InputGroup.Text>
+                    <Form.Control onChange={(e) => changeMinScale(e.target.value)}
+                                  onBlur={removeInput}
+                                  placeholder={chart.yAxisMin !== undefined? chart.yAxisMin : "auto"}
+                                  value={minScale} isInvalid={minScaleInvalid}
                     />
                 </InputGroup>
             </Container>
