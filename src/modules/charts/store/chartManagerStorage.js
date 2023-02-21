@@ -3,37 +3,34 @@ import chartStorage from "./chartStorage";
 
 class ChartManager {
     charts = []
-    
+
     constructor() {
         makeAutoObservable(this)
     }
 
     init() {
-        let chartConfigs = JSON.parse(localStorage.getItem("charts"))
-        if (!chartConfigs) return
-        chartConfigs = chartConfigs.filter((element) => element !== null)
-        this.charts = chartConfigs.map(
-            (config, id) => new chartStorage({manager: this, configs: {id: id, ...config}})
+        let chartsConfigs = localStorage.getItem("charts")
+        if (!chartsConfigs) return this.resetConfigs()
+        this.charts = JSON.parse(chartsConfigs).map((config, id) =>
+            new chartStorage({manager: this, configs: {id: id, ...config}})
         )
     }
 
     createNewChart() {
-        this.charts = [...this.charts, new chartStorage({manager: this, configs: {id: this.charts.length}})]
+        let newChart = new chartStorage({manager: this, configs: {id: this.charts.length}})
+        this.charts = [...this.charts, newChart]
+        this.updateChartsConfigs()
     }
 
-    deleteChart(chart) {
-        this.charts = this.charts.filter((chart) => chart.id !== chart)
-        let configs = JSON.parse(localStorage.getItem("charts"))
-        delete configs[chart.id]
-        this.charts = this.charts.filter((element) => element.id !== chart.id)
-        localStorage.setItem("charts", JSON.stringify(configs))
+    removeChart(chartId) {
+        this.charts = this.charts.filter((chart) => chart.id !== chartId)
+        this.updateChartsConfigs()
     }
 
-    updateChartConfig(chartConfig) {
-        let configs = JSON.parse(localStorage.getItem("charts"))
-        if (!configs) configs = [chartConfig]
-        else configs[chartConfig.id] = chartConfig
-        localStorage.setItem("charts", JSON.stringify(configs))
+    updateChartsConfigs() {
+        localStorage.setItem("charts", JSON.stringify(
+            this.charts.map((chart) => chart.getConfig())
+        ))
     }
 
 }

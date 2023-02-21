@@ -61,7 +61,7 @@ const ChartItemConfiguration = observer(({chart}) => {
             <ModalRemoveChartButton
                 show={showRemoveModal}
                 handleClose={() => setShowRemoveModal(false)}
-                handleConfirm={chart.remove}
+                handleConfirm={() => chart.manager.removeChart(chart.id)}
             />
         </Container>
     );

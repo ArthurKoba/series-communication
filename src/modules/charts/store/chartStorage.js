@@ -66,17 +66,17 @@ class ChartStorage {
     setType(type) {
         this.data.type = type
         this.chart?.update()
-        this.updateConfigs()
+        this.manager.updateChartsConfigs(this.id)
     }
 
     swapFullscreen() {
         this.isFullScreen = !this.isFullScreen
-        this.updateConfigs()
+        this.manager.updateChartsConfigs(this.id)
     }
 
     swapConfigurationOpened () {
         this.isConfigurationOpened = !this.isConfigurationOpened
-        this.updateConfigs()
+        this.manager.updateChartsConfigs(this.id)
     }
 
     setSubscribeDataStreamType(type) {
@@ -84,28 +84,27 @@ class ChartStorage {
         this.subscribeDataStreamId = null
         this.availableDataNames = []
         this.selectedDataName = ""
-        this.updateConfigs()
+        this.manager.updateChartsConfigs(this.id)
     }
 
     setSubscribeDataStreamId(id) {
         this.subscribeDataStreamId = id
         this.availableDataNames = []
         this.selectedDataName = ""
-        this.updateConfigs()
+        this.manager.updateChartsConfigs(this.id)
     }
 
     setDataName(name) {
         this.selectedDataName = name
-        this.updateConfigs()
+        this.manager.updateChartsConfigs(this.id)
     }
 
-    updateConfigs() {
-        const config = {
+    getConfig() {
+        return  {
             id: this.id, fullscreen: this.isFullScreen, type: this.data.type,
             isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
             subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName
         }
-        this.manager.updateChartConfig(config)
     }
 
     resetScales() {
@@ -128,8 +127,6 @@ class ChartStorage {
         this.data.options.scales.y = {min: min, max: max}
         this.chart?.update()
     }
-
-    remove = () => this.manager.deleteChart(this)
 }
 
 export default ChartStorage
