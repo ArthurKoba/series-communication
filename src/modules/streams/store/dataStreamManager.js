@@ -7,40 +7,33 @@ import {streamTypes} from "../streamTypes";
 class DataStreamManager {
     serialStreams = []
     generatorStreams = []
-    charts = []
 
     constructor() {
         makeAutoObservable(this)
     }
 
     init(appStorage) {
-
-        this.reactionUpdateCharts = reaction(
-            () => appStorage.chartsManager.charts,
-            (charts) => this.charts = charts
-        )
         this.reactionUpdateSerial = reaction(
             () => appStorage.serialManager.availablePorts,
-            (resources) => this.updateSerialStreams(resources)
+            (resources) => this.updateSerialStreams(resources, appStorage)
         )
         this.reactionUpdateGenerators = reaction(
             () => appStorage.generatorsManager.generators,
-            (resources) => this.updateGeneratorStreams(resources)
+            (resources) => this.updateGeneratorStreams(resources, appStorage)
         )
     }
 
-    updateGeneratorStreams(resources) {
-        this.generatorStreams = resources.map((element) =>
-            new DataStream({type: streamTypes.generator, id: element.id, resource: element, charts: this.charts})
+    updateGeneratorStreams(resources, appStorage) {
+        this.generatorStreams = resources.map((resource) =>
+            new DataStream({type: streamTypes.generator, resource, appStorage})
         )
     }
 
-    updateSerialStreams(resources) {
-        this.serialStreams = resources.map((element) =>
-            new DataStream({type: streamTypes.serial, id: element.id, resource: element, charts: this.charts})
+    updateSerialStreams(resources, appStorage) {
+        this.serialStreams = resources.map((resource) =>
+            new DataStream({type: streamTypes.serial, resource, appStorage})
         )
     }
-
 }
 
 export default DataStreamManager;

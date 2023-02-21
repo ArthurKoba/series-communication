@@ -1,19 +1,25 @@
-import {action, makeAutoObservable} from "mobx";
+import {action, makeAutoObservable, reaction} from "mobx";
 
 
 class DataStream {
-
     charts = []
     countData = 0
 
-    constructor(config) {
-        this.id = config.id
-        this.resource = config.resource
-        this.type = config.type
+    constructor({type, resource, appStorage}) {
+        this.id = resource.id
+        this.resource = resource
+        this.type = type
         this.handler = this.handler.bind(this)
-        this.charts = config.charts
         this.resource.setHandler(this.handler)
         makeAutoObservable(this)
+
+        this.reactionUpdateCharts = reaction(
+            () => appStorage.chartsManager.charts,
+            (charts) => {
+                console.log("reaction")
+                this.charts = charts
+            }
+        )
     }
 
     addCount = action ((value = 1) => {this.countData += value})
