@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {action, makeAutoObservable} from "mobx";
 import Chart from "chart.js/auto";
 
 import {defaultOptions} from "../configs/chartjsdefault"
@@ -98,7 +98,7 @@ class ChartStorage {
 
     getConfig() {
         return  {
-            id: this.id, fullscreen: this.isFullScreen, type: this.data.type,
+            id: this.id, isFullScreen: this.isFullScreen, type: this.data.type,
             isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
             subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName
         }
