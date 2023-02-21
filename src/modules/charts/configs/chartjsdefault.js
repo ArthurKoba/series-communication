@@ -6,16 +6,27 @@ export const chartTypes = [
 export const defaultOptions = {
     responsive: true,
     animation: {duration: 0},
+    // parsing: false,
     elements: {
         point: {radius: 0},
         line: {
-            borderColor: "#F00",
+            tension: 0,
+            borderColor: "#0A0",
             borderWidth: 1,
+
         }
     },
     plugins: {
-        legend: {position: 'top'},
-        title: {display: true, text: "Some chart"},
+        legend: {display: false, position: 'top'}, // datasets labels
+        title: {display: false, text: "Some chart"}, // chart name
+        tooltip: {enabled: true}, // point info when hover
     },
-    scales: {y: {}}
+    scales: {
+        x: {
+            grid: {display: true}
+        },
+        y: {
+            grid: {display: true}
+        }
+    }
 }
