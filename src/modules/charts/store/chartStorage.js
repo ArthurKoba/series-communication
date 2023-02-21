@@ -81,11 +81,16 @@ class ChartStorage {
 
     setSubscribeDataStreamType(type) {
         this.subscribeDataStreamType = type
+        this.subscribeDataStreamId = null
+        this.availableDataNames = []
+        this.selectedDataName = ""
         this.updateConfigs()
     }
 
     setSubscribeDataStreamId(id) {
         this.subscribeDataStreamId = id
+        this.availableDataNames = []
+        this.selectedDataName = ""
         this.updateConfigs()
     }
 
