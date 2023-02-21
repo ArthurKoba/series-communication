@@ -6,7 +6,7 @@ import {defaultConfigHighCharts} from "../configs/highChartsConfigDefault"
 
 class ChartStorage {
     chart = null
-    chartConfig = {...defaultConfigHighCharts, }
+    chartConfig = {...defaultConfigHighCharts}
 
     availableDataNames = []
     fps = 0
@@ -15,7 +15,7 @@ class ChartStorage {
 
     constructor({manager, configs}) {
         this.id = configs.id
-        // this.data.type = configs?.type || "line"
+        this.chartConfig.chart.type = configs?.type || "line"
         this.isFullScreen = configs?.isFullScreen || false
         this.isConfigurationOpened = configs?.isConfigurationOpened || false
         this.subscribeDataStreamType = configs?.subscribeDataStreamType || ""
@@ -41,8 +41,8 @@ class ChartStorage {
         if (this.selectedDataName && this.selectedDataName !== dataName) return
         this.isBusy = true
         let timer = new Date()
-        this.chart.series[0].setData(data, true)
-        // this.chart.series[1].setData(data, true)
+        if (this.chart.series.length) this.chart.series[0].setData(data, true)
+        else this.chart.addSeries({data: data})
         timer = new Date() - timer
         if (!this.fps) this.updateFps(Math.round(1000/timer))
         else this.updateFps(this.fps + Math.round((1000/timer - this.fps)/20))
@@ -50,9 +50,7 @@ class ChartStorage {
     }
 
     click() {
-        // this.chart.data.datasets[0].data = [1, 2, 3]
-        this.chart.data.labels = ["1", "3", "2"]
-        // this.chart?.update()
+        this.updateData({dataName: this.selectedDataName, data: [1, 2, 3]}).then(() => null)
     }
 
     setType(type) {

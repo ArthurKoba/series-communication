@@ -22,11 +22,4 @@ export const defaultConfigHighCharts = {
             animation: false
         }
     },
-    series: [
-        {
-            data: [1,2,3],
-            lineWidth: 1
-        },
-    ]
-
 }
