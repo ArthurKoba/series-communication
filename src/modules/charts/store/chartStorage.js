@@ -56,13 +56,14 @@ class ChartStorage {
     }
 
     setType(type) {
-        // this.data.type = type
-        // this.chart?.update()
+        this.chartConfig.chart.type = type
+        this.chart.update(this.chartConfig)
         this.manager.updateChartsConfigs(this.id)
     }
 
     swapFullscreen() {
         this.isFullScreen = !this.isFullScreen
+        this.chart.update(this.chartConfig)
         this.manager.updateChartsConfigs(this.id)
     }
 
