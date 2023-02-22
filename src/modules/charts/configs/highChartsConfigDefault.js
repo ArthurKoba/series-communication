@@ -8,13 +8,16 @@ export const defaultConfigHighCharts = {
         type: 'column',
     },
     boost: {
-        useGPUTranslations: true,
-        seriesThreshold: 2,
+        allowForce: true,
         turboThreshold: 5000,
+        enabled: true,
+        pixelRatio: 1,
+        seriesThreshold: 2,
+        useGPUTranslations: true,
         usePreallocated: false,
     },
 
-    title: {text: 'Title'},
+    title: {text: 'Chart'},
     // subtitle: {text: 'Using the Boost module'},
     tooltip: {
         valueDecimals: 2
@@ -23,12 +26,11 @@ export const defaultConfigHighCharts = {
         series: {
             animation: false
         },
+        line: {
+            boostThreshold: 2000
+        },
         column: {
             boostThreshold: 256
         }
     },
-    series: [{
-        type: 'column',
-        boostThreshold: 256
-    }]
 }
