@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from 'react';
 import {observer} from "mobx-react-lite";
 import {Button, Container} from "react-bootstrap";
 
-import ChartItemConfiguration from "./ChartItemConfiguration";
 import {isSmallScreen} from "../../../shared/utils";
+import {ModalChartConfiguration} from "./ui/ModalChartConfiguration";
 
 
 const ChartItem = observer(({chart}) => {
@@ -29,7 +29,11 @@ const ChartItem = observer(({chart}) => {
                         <Button size="sm" onClick={() => (chart.swapConfigurationOpened())}>Configuration</Button>
                         {chart.fps? <Button size="sm" variant={fpsColor} disabled>FPS: {chart.fps}</Button>: ""}
                 </Container>
-                {chart.isConfigurationOpened? <ChartItemConfiguration chart={chart}/> : ""}
+                <ModalChartConfiguration
+                    chart={chart}
+                    show={chart.isConfigurationOpened}
+                    handleClose={() => chart.swapConfigurationOpened()}
+                />
             </Container>
         </Container>
 

@@ -7,11 +7,8 @@ import {defaultConfigHighCharts} from "../configs/highChartsConfigDefault"
 class ChartStorage {
     chart = null
     chartConfig = {...defaultConfigHighCharts}
-
     availableDataNames = []
     fps = 0
-    yAxisMax = undefined
-    yAxisMin = undefined
 
     constructor({manager, configs}) {
         this.id = configs.id
@@ -21,6 +18,8 @@ class ChartStorage {
         this.subscribeDataStreamType = configs?.subscribeDataStreamType || ""
         this.subscribeDataStreamId = configs?.subscribeDataStreamId || ""
         this.selectedDataName = configs?.selectedDataName || ""
+        this.yAxisMax = configs?.yAxisMax || undefined
+        this.yAxisMin = configs?.yAxisMin || undefined
         this.selectedDataName && this.availableDataNames.push(this.selectedDataName)
         this.manager = manager
         this.updateData = this.updateData.bind(this)
@@ -44,8 +43,8 @@ class ChartStorage {
         if (this.chart.series.length) this.chart.series[0].setData(data, true)
         else this.chart.addSeries({data: data})
         timer = new Date() - timer
-        if (!this.fps) this.updateFps(Math.round(1000/timer))
-        else this.updateFps(this.fps + Math.round((1000/timer - this.fps)/20))
+        if (!this.fps) this.updateFps(Math.round(1000 / timer))
+        else this.updateFps(this.fps + Math.round((1000 / timer - this.fps) / 20))
         this.isBusy = false
     }
 
@@ -65,7 +64,7 @@ class ChartStorage {
         this.manager.updateChartsConfigs(this.id)
     }
 
-    swapConfigurationOpened () {
+    swapConfigurationOpened() {
         this.isConfigurationOpened = !this.isConfigurationOpened
         this.manager.updateChartsConfigs(this.id)
     }
@@ -91,10 +90,11 @@ class ChartStorage {
     }
 
     getConfig() {
-        return  {
+        return {
             id: this.id, isFullScreen: this.isFullScreen, type: this.chartConfig.chart.type,
             isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
-            subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName
+            subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName,
+            yAxisMin: this.yAxisMin, yAxisMax: this.yAxisMax
         }
     }
 
@@ -102,11 +102,7 @@ class ChartStorage {
         this.setAxisScalesY({min: undefined, max: undefined})
     }
 
-    setAxisScalesY({min, max}) {
-        this.chart.yAxis[0].update(
-            {min: this.yAxisMin = min, max: this.yAxisMax = max}
-        )
-    }
+    setAxisScalesY = ({min, max}) => this.chart.yAxis[0].update({min: this.yAxisMin = min, max: this.yAxisMax = max})
 
 }
 

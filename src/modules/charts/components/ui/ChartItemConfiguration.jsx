@@ -2,38 +2,26 @@ import React, {useState} from 'react';
 import {Button, Container, Form, InputGroup} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
-import SelectChartType from "./ui/SelectChartType";
-import ModalRemoveChartButton from "./ui/ModalRemoveChartButton";
-import SelectDataStreamType from "./ui/SelectDataStreamType";
-import SelectDataStream from "./ui/SelectDataStream";
-import SelectDataName from "./ui/SelectDataName";
+import SelectChartType from "./SelectChartType";
+import ModalRemoveChartButton from "./ModalRemoveChartButton";
+import SelectDataStreamType from "./SelectDataStreamType";
+import SelectDataStream from "./SelectDataStream";
+import SelectDataName from "./SelectDataName";
 
 const ChartItemConfiguration = observer(({chart}) => {
-    const [maxScale, setMaxScale] = useState("")
-    const [minScale, setMinScale] = useState("")
-    const [minScaleInvalid, setMinScaleInvalid] = useState(false)
-    const [maxScaleInvalid, setMaxScaleInvalid] = useState(false)
+    const [maxScale, setMaxScale] = useState(chart.yAxisMax? chart.yAxisMax.toString() : "")
+    const [minScale, setMinScale] = useState(chart.yAxisMin? chart.yAxisMin.toString() : "")
+
     const [showRemoveModal, setShowRemoveModal] = useState(false)
 
     const changeMaxScale = (value) => {
         setMaxScale(value)
-        value = parseFloat(value)
-        if (isNaN(value)) return setMaxScaleInvalid(true)
-        setMaxScaleInvalid(false)
-        chart.setAxisScalesY({max: value, min: chart.yAxisMin})
+        chart.setAxisScalesY({max: value? parseFloat(value): undefined, min: chart.yAxisMin})
     }
 
     const changeMinScale = (value) => {
         setMinScale(value)
-        value = parseFloat(value)
-        if (isNaN(value)) return setMinScaleInvalid(true)
-        setMinScaleInvalid(false)
-        chart.setAxisScalesY({max: chart.yAxisMax, min: value})
-    }
-
-    const removeInput = () => {
-        setMinScale("")
-        setMaxScale("")
+        chart.setAxisScalesY({max: chart.yAxisMax, min: value? parseFloat(value): undefined})
     }
 
     return (
@@ -48,18 +36,17 @@ const ChartItemConfiguration = observer(({chart}) => {
                     <InputGroup.Text>Max scale</InputGroup.Text>
                     <Form.Control type="number"
                         onChange={(e) => changeMaxScale(e.target.value)}
-                        onBlur={removeInput}
-                        placeholder={chart.yAxisMax !== undefined? chart.yAxisMax : "auto"}
-                        value={maxScale} isInvalid={maxScaleInvalid}
+                        placeholder="auto"
+                        value={maxScale}
                     />
                 </InputGroup>
                 <InputGroup size="sm" className="mb-2">
                     <InputGroup.Text>Min scale</InputGroup.Text>
                     <Form.Control type="number"
+                        onFocus={() => setMinScale(chart.yAxisMin)}
                         onChange={(e) => changeMinScale(e.target.value)}
-                        onBlur={removeInput}
-                        placeholder={chart.yAxisMin !== undefined? chart.yAxisMin : "auto"}
-                        value={minScale} isInvalid={minScaleInvalid}
+                        placeholder="auto"
+                        value={minScale}
                     />
                 </InputGroup>
             </Container>
