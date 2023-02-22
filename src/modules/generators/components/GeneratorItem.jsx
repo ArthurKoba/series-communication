@@ -49,7 +49,7 @@ const GeneratorItem = observer(({generator}) => {
     }
 
     return (
-        <Container fluid className="col-12 col-sm-6 col-md-4 col-lg-3 mt-2 p-1">
+        <Container fluid className="col col-sm-6 col-md-4 col-lg-3 mt-2 p-1">
             <Card>
                 <Card.Body className="row">
                     <InputGroup size="sm" className="mb-2">

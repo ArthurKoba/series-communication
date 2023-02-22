@@ -16,7 +16,7 @@ const SerialPorts = () => {
         return (
             <Container fluid className="row justify-content-center p-2">
 
-                <Card className="text-center col-12 col-md-6 col mt-4">
+                <Card className="text-center col col-md-6 col mt-4">
                     <Card.Header><h2 className="text-danger">Serial ports unavailable!</h2></Card.Header>
                     <Card.Body>
                         <p>

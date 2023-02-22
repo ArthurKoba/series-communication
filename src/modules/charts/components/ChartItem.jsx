@@ -9,9 +9,13 @@ import {isSmallScreen} from "../../../shared/utils";
 const ChartItem = observer(({chart}) => {
 
     const containerRef = useRef(null)
-    useEffect(() => chart.setContainer(containerRef.current), [])
 
-    const fullScreen = chart.isFullScreen? "col-12": "col-6"
+    useEffect(() => {
+        chart.setContainer(containerRef.current)
+        new ResizeObserver(() => chart.chart.reflow()).observe(containerRef.current)
+    }, [])
+
+    const fullScreen = chart.isFullScreen? "col": "col-md-6"
     let fpsColor = chart.fps > 120? "info" : chart.fps > 90? "primary" : chart.fps > 60? "success" :
                    chart.fps > 60? "success" : chart.fps > 30? "warning" : "danger"
 

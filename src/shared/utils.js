@@ -5,5 +5,5 @@ export function getWindowDimensions() {
 
 export function isSmallScreen() {
     const {width} = getWindowDimensions()
-    return width < 576
+    return width < 768
 }
