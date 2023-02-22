@@ -27,4 +27,8 @@ export const defaultConfigHighCharts = {
             boostThreshold: 256
         }
     },
+    series: [{
+        type: 'column',
+        boostThreshold: 256
+    }]
 }
