@@ -46,18 +46,20 @@ const ChartItemConfiguration = observer(({chart}) => {
                 <Button onClick={() => chart.click()}>click</Button>
                 <InputGroup size="sm" className="mb-2">
                     <InputGroup.Text>Max scale</InputGroup.Text>
-                    <Form.Control onChange={(e) => changeMaxScale(e.target.value)}
-                                  onBlur={removeInput}
-                                  placeholder={chart.yAxisMax !== undefined? chart.yAxisMax : "auto"}
-                                  value={maxScale} isInvalid={maxScaleInvalid}
+                    <Form.Control type="number"
+                        onChange={(e) => changeMaxScale(e.target.value)}
+                        onBlur={removeInput}
+                        placeholder={chart.yAxisMax !== undefined? chart.yAxisMax : "auto"}
+                        value={maxScale} isInvalid={maxScaleInvalid}
                     />
                 </InputGroup>
                 <InputGroup size="sm" className="mb-2">
                     <InputGroup.Text>Min scale</InputGroup.Text>
-                    <Form.Control onChange={(e) => changeMinScale(e.target.value)}
-                                  onBlur={removeInput}
-                                  placeholder={chart.yAxisMin !== undefined? chart.yAxisMin : "auto"}
-                                  value={minScale} isInvalid={minScaleInvalid}
+                    <Form.Control type="number"
+                        onChange={(e) => changeMinScale(e.target.value)}
+                        onBlur={removeInput}
+                        placeholder={chart.yAxisMin !== undefined? chart.yAxisMin : "auto"}
+                        value={minScale} isInvalid={minScaleInvalid}
                     />
                 </InputGroup>
             </Container>

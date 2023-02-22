@@ -49,12 +49,12 @@ const GeneratorItem = observer(({generator}) => {
     }
 
     return (
-        <Container fluid className="col-5 mt-2">
+        <Container fluid className="col-12 col-sm-6 col-md-4 col-lg-3 mt-2 p-1">
             <Card>
                 <Card.Body className="row">
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Amplitude</InputGroup.Text>
-                        <Form.Control
+                        <Form.Control type="number"
                             onChange={(e) => handlerSetAmplitude(e.target.value)}
                             placeholder={generator.amplitude}
                             isInvalid={amplitudeInvalid}
@@ -63,7 +63,7 @@ const GeneratorItem = observer(({generator}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Frequency</InputGroup.Text>
-                        <Form.Control
+                        <Form.Control type="number"
                             onChange={(e) => handlerSetFrequency(e.target.value)}
                             placeholder={generator.frequency}
                             isInvalid={frequencyInvalid}
@@ -72,7 +72,7 @@ const GeneratorItem = observer(({generator}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Length</InputGroup.Text>
-                        <Form.Control
+                        <Form.Control type="number"
                             onChange={(e) => handlerSetLengthData(e.target.value)}
                             placeholder={generator.lengthData}
                             isInvalid={lengthDataInvalid}
@@ -81,7 +81,7 @@ const GeneratorItem = observer(({generator}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Delay (Ms)</InputGroup.Text>
-                        <Form.Control
+                        <Form.Control type="number"
                             onChange={(e) => handlerSetDelay(e.target.value)}
                             placeholder={generator.delayMs}
                             isInvalid={delayMsInvalid}

@@ -1,11 +1,10 @@
 import React from 'react';
-import {Button, Container} from "react-bootstrap";
+import {Button, Card, Container} from "react-bootstrap";
 
 import SerialPortList from "./components/SerialPortList";
 import appStorage from "../../appStorage";
 
 const SerialPorts = () => {
-
 
     const addSerialPort = () => {
         navigator.serial.requestPort()
@@ -15,18 +14,26 @@ const SerialPorts = () => {
 
     if (!navigator.serial) {
         return (
-            <Container fluid className="row text-center col-6 mt-4">
-                <h1>Serial ports unavailable!</h1>
-                <p>
-                    The Web Serial API provides a way for websites to read from and write
-                    to serial devices. These devices may be connected via a serial port,
-                    or be USB or Bluetooth devices that emulate a serial port.
-                </p>
-                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API"
-                   rel="noreferrer"
-                   target="_blank">
-                    More information
-                </a>
+            <Container fluid className="row justify-content-center p-2">
+
+                <Card className="text-center col-12 col-md-6 col mt-4">
+                    <Card.Header><h2 className="text-danger">Serial ports unavailable!</h2></Card.Header>
+                    <Card.Body>
+                        <p>
+                            The Web Serial API provides a way for websites to read from and write
+                            to serial devices. These devices may be connected via a serial port,
+                            or be USB or Bluetooth devices that emulate a serial port.
+                        </p>
+
+                    </Card.Body>
+                    <Card.Footer>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API"
+                           rel="noreferrer"
+                           target="_blank">
+                            More information
+                        </a>
+                    </Card.Footer>
+                </Card>
             </Container>
         )
     }

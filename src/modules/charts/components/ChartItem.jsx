@@ -3,6 +3,7 @@ import {observer} from "mobx-react-lite";
 import {Button, Container} from "react-bootstrap";
 
 import ChartItemConfiguration from "./ChartItemConfiguration";
+import {isSmallScreen} from "../../../shared/utils";
 
 
 const ChartItem = observer(({chart}) => {
@@ -20,7 +21,7 @@ const ChartItem = observer(({chart}) => {
                 <Container ref={containerRef} fluid className="border-bottom border-primary m-0"/>
                 <Container className="chart-button col d-flex justify-content-center">
                         <Button size="sm" onClick={() => chart.resetScales()}>Reset Scales</Button>
-                        <Button size="sm" onClick={() => (chart.swapFullscreen())}>FullScreen</Button>
+                        {isSmallScreen()? "" : <Button size="sm" onClick={() => (chart.swapFullscreen())}>FullScreen</Button>}
                         <Button size="sm" onClick={() => (chart.swapConfigurationOpened())}>Configuration</Button>
                         {chart.fps? <Button size="sm" variant={fpsColor} disabled>FPS: {chart.fps}</Button>: ""}
                 </Container>

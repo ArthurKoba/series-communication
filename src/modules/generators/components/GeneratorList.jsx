@@ -6,7 +6,7 @@ import {observer} from "mobx-react-lite";
 
 const GeneratorList = observer(({generators}) => {
     return (
-        <Container fluid className="row">
+        <Container fluid className="row p-1">
             {
                 generators.map((generator, index) => <GeneratorItem key={index} generator={generator}/>)
             }
