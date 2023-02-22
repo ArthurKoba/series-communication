@@ -4,6 +4,6 @@ export const streamTypes = {
 }
 
 export const streamTypesList = [
-    {name: "Generator Stream", value: streamTypes.generator},
-    {name: "Serial Stream", value: streamTypes.serial},
+    {name: "Generators", value: streamTypes.generator},
+    {name: "Serial", value: streamTypes.serial},
 ]
