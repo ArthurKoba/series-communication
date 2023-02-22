@@ -92,7 +92,7 @@ class ChartStorage {
 
     getConfig() {
         return  {
-            id: this.id, isFullScreen: this.isFullScreen, type: null,
+            id: this.id, isFullScreen: this.isFullScreen, type: this.chartConfig.chart.type,
             isConfigurationOpened: this.isConfigurationOpened, subscribeDataStreamType: this.subscribeDataStreamType,
             subscribeDataStreamId: this.subscribeDataStreamId, selectedDataName: this.selectedDataName
         }
