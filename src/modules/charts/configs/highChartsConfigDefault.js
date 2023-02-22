@@ -9,7 +9,9 @@ export const defaultConfigHighCharts = {
     },
     boost: {
         useGPUTranslations: true,
-        seriesThreshold: 5
+        seriesThreshold: 2,
+        turboThreshold: 5000,
+        usePreallocated: false,
     },
 
     title: {text: 'Title'},
@@ -20,6 +22,9 @@ export const defaultConfigHighCharts = {
     plotOptions: {
         series: {
             animation: false
+        },
+        column: {
+            boostThreshold: 256
         }
     },
 }
