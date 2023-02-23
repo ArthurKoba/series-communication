@@ -26,16 +26,6 @@
   margin: .25rem;
 }
 
-@media (min-width: 1200px) {
-  .chart {
-    max-width: 80%;
-  }
-}
-@media (min-width: 1400px) {
-  .chart {
-    max-width: 70%;
-  }
-}
 
 ::-webkit-scrollbar {
   width: 10px;
