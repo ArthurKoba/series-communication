@@ -15,7 +15,7 @@ const ChartItem = observer(({chart}) => {
         new ResizeObserver(() => chart.chart.reflow()).observe(containerRef.current)
     }, [])
 
-    const fullScreen = chart.isFullScreen? "col": "col-md-6"
+    const fullScreen = chart.isFullScreen? "col-12": "col-md-6"
     let fpsColor = chart.fps > 120? "info" : chart.fps > 90? "primary" : chart.fps > 60? "success" :
                    chart.fps > 60? "success" : chart.fps > 30? "warning" : "danger"
 
@@ -24,10 +24,10 @@ const ChartItem = observer(({chart}) => {
             <Container className="border border-2 border-primary rounded">
                 <Container ref={containerRef} fluid className="border-bottom border-primary m-0"/>
                 <Container className="chart-button col d-flex justify-content-center">
-                        <Button size="sm" onClick={() => chart.resetScales()}>Reset Scales</Button>
-                        {isSmallScreen()? "" : <Button size="sm" onClick={() => (chart.swapFullscreen())}>FullScreen</Button>}
-                        <Button size="sm" onClick={() => (chart.swapConfigurationOpened())}>Configuration</Button>
-                        {chart.fps? <Button size="sm" variant={fpsColor} disabled>FPS: {chart.fps}</Button>: ""}
+                    <Button size="sm" onClick={() => chart.resetScales()}>Reset Scales</Button>
+                    {isSmallScreen()? "" : <Button size="sm" onClick={() => (chart.swapFullscreen())}>FullScreen</Button>}
+                    <Button size="sm" onClick={() => (chart.swapConfigurationOpened())}>Configuration</Button>
+                    {chart.fps? <Button size="sm" variant={fpsColor} disabled>FPS: {chart.fps}</Button>: ""}
                 </Container>
                 <ModalChartConfiguration
                     chart={chart}
