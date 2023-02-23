@@ -18,6 +18,13 @@ export function setTargetInvalid(target) {
     target.classList.add("is-invalid")
 }
 
+export function changeNumberWithValidation(target, setStateFunc, setStorageFunc, parseFunc) {
+    setStateFunc(target.value)
+    if (!target.validity.valid) return setTargetInvalid(target)
+    setTargetValid(target)
+    setStorageFunc(parseFunc(target.value))
+}
+
 export function alertWarningVirtualSerialPort() {
 
     const alertText = "At the time of the development of this software, " +
