@@ -33,4 +33,5 @@ export const defaultConfigHighCharts = {
             boostThreshold: 256
         }
     },
+    yAxis: {}
 }

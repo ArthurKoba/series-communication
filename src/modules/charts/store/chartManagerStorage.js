@@ -19,15 +19,15 @@ class ChartManager {
     createNewChart() {
         let newChart = new chartStorage({manager: this, configs: {id: this.charts.length}})
         this.charts = [...this.charts, newChart]
-        this.updateChartsConfigs()
+        this.updateConfigs()
     }
 
     removeChart(chartId) {
         this.charts = this.charts.filter((chart) => chart.id !== chartId)
-        this.updateChartsConfigs()
+        this.updateConfigs()
     }
 
-    updateChartsConfigs() {
+    updateConfigs() {
         localStorage.setItem("charts", JSON.stringify(
             this.charts.map((chart) => chart.getConfig())
         ))
