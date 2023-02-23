@@ -17,10 +17,10 @@ class SerialPortItemStorage {
         this.baudRate = configs?.baudRate || 0
         this.usbProductId = configs?.usbProductId
         this.usbVendorId = configs?.usbVendorId
-        this.portObject = portObject
+        this.port = portObject
+        this.serialReader = new SerialReader({port: this.port})
         this.connect = this.connect.bind(this)
         this.disconnect = this.disconnect.bind(this)
-        this.serialReader = new SerialReader({port: this.portObject})
         makeAutoObservable(this)
         if (configs?.isConnected) this.connect().then(() => {})
     }
