@@ -9,33 +9,34 @@ class GeneratorsManager {
     }
 
     init() {
-        let configs = JSON.parse(localStorage.getItem("generators"))
-        if (!configs) return
-        configs = configs.filter((element) => element !== null)
-        if (configs) this.generators = configs.map((
-            config, index) => new Generator({...config, id: index, manager: this})
+        let configs = localStorage.getItem("generators")
+        if (!configs) return this.resetConfigs()
+        this.generators = JSON.parse(configs).map((config, id) =>
+            new Generator({...config, id: id, manager: this})
         )
     }
 
-    newGenerator() {
-        this.generators = [...this.generators, new Generator({id: this.generators.length, manager: this})]
+    createGenerator() {
+        let newGenerator = new Generator({id: this.generators.length, manager: this})
+        this.generators = [...this.generators, newGenerator]
+        this.updateConfigs()
     }
 
-    removeGenerator(generator) {
-        this.generators = this.generators.filter((chart) => chart.id !== chart)
-        let configs = JSON.parse(localStorage.getItem("generators"))
-        delete configs[generator.id]
-        this.generators = this.generators.filter((element) => element.id !== generator.id)
-        localStorage.setItem("generators", JSON.stringify(configs))
+    removeGenerator(generatorId) {
+        this.generators = this.generators.filter((generator) => generator.id !== generatorId)
+        this.updateConfigs()
     }
 
-    updateGeneratorConfig(config) {
-        let configs = JSON.parse(localStorage.getItem("generators"))
-        if (!configs) configs = [config]
-        else configs[config.id] = config
-        localStorage.setItem("generators", JSON.stringify(configs))
+    updateConfigs() {
+        localStorage.setItem("generators", JSON.stringify(
+            this.generators.map((generator) => generator.getConfig())
+        ))
     }
 
+    resetConfigs() {
+        this.generators = []
+        localStorage.setItem("generators", "[]")
+    }
 }
 
 export default GeneratorsManager;
