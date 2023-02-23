@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx";
 class Generator {
 
     handler = null
-    task = undefined
+    isTaskEnabled = false
 
     constructor(configs) {
         this.id = configs.id
@@ -13,7 +13,7 @@ class Generator {
         this.lengthData = configs?.lengthData || 10
         this.delayMs = configs?.delayMs || 10
         this.isEnabled = configs?.isEnabled || false
-        if (this.isEnabled) this.enable()
+        if (this.isEnabled) this.startTask().then(() => null)
         makeAutoObservable(this)
     }
 
@@ -26,20 +26,20 @@ class Generator {
 
     async startTask() {
         this.isEnabled = true
-        if (this.task) return
+        if (this.isTaskEnabled) return
+        this.isTaskEnabled = true
         let index = 0
         while (this.isEnabled) {
-            if (!this.handler) continue
             let data = []
             let stopIndex = index + this.lengthData
-            for (index; index < stopIndex && this.isEnabled; index++) {
+            for (index; index < stopIndex; index++) {
                 let value = Math.sin(this.frequency * index) * this.amplitude
                 data.push(value)
             }
-            this.handler({dataName: null, data: data})
+            if (this.handler) this.handler({dataName: null, data: data})
             await new Promise(resolve => setTimeout(resolve, this.delayMs));
         }
-        this.task = null
+        this.isTaskEnabled = false
     }
 
     remove = () =>  this.manager.removeGenerator(this.id)
@@ -52,7 +52,7 @@ class Generator {
         }
     }
 
-    enable = this.saveConfigWrapper(() => this.task = this.startTask())
+    enable = this.saveConfigWrapper(() => this.startTask())
     disable = this.saveConfigWrapper(() => this.isEnabled = false)
     setFrequency = this.saveConfigWrapper((value) => this.frequency = value)
     setAmplitude = this.saveConfigWrapper((value) => this.amplitude = value)
