@@ -6,23 +6,14 @@ import ModalRemoveChartButton from "./ModalRemoveChartButton";
 import SelectDataStreamType from "./SelectDataStreamType";
 import SelectDataStream from "./SelectDataStream";
 import SelectDataName from "./SelectDataName";
+import {changeNumberWithValidation} from "../../../../shared/utils";
 
 export const ModalChartConfiguration = ({chart, show, handleClose}) => {
 
     const [maxScale, setMaxScale] = useState(chart.yAxisMax? chart.yAxisMax.toString() : "")
     const [minScale, setMinScale] = useState(chart.yAxisMin? chart.yAxisMin.toString() : "")
-
     const [showRemoveModal, setShowRemoveModal] = useState(false)
 
-    const changeMaxScale = (value) => {
-        setMaxScale(value)
-        chart.setAxisScalesY({max: value? parseFloat(value): undefined, min: chart.yAxisMin})
-    }
-
-    const changeMinScale = (value) => {
-        setMinScale(value)
-        chart.setAxisScalesY({max: chart.yAxisMax, min: value? parseFloat(value): undefined})
-    }
 
     return (
         <Modal centered={true} show={show} onHide={handleClose} size="lg">
@@ -38,8 +29,10 @@ export const ModalChartConfiguration = ({chart, show, handleClose}) => {
                     <InputGroup size="sm" className="mt-2">
                         <InputGroup.Text>Max scale</InputGroup.Text>
                         <Form.Control
-                            type="number"
-                            onChange={(e) => changeMaxScale(e.target.value)}
+                            type="number" step="any"
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setMaxScale, chart.setMaxAxisScaleY, parseFloat)
+                            }
                             placeholder="auto"
                             value={maxScale}
                         />
@@ -47,9 +40,10 @@ export const ModalChartConfiguration = ({chart, show, handleClose}) => {
                     <InputGroup size="sm" className="mt-2">
                         <InputGroup.Text>Min scale</InputGroup.Text>
                         <Form.Control
-                            type="number"
-                            onFocus={() => setMinScale(chart.yAxisMin)}
-                            onChange={(e) => changeMinScale(e.target.value)}
+                            type="number" step="any"
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setMinScale, chart.setMinAxisScaleY, parseFloat)
+                            }
                             placeholder="auto"
                             value={minScale}
                         />

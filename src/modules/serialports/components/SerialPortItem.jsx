@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Button, ButtonGroup, Card, Container, Form, InputGroup} from "react-bootstrap";
+import {changeNumberWithValidation} from "../../../shared/utils";
 
 
 const SerialPortItem = observer(({port}) => {
-    const [baudRateInput, setBaudRateInput] = useState(port.baudRate.toString() || "9600")
+    const [baudRate, setBaudRate] = useState(port.baudRate.toString() || "")
     const [portName, setPortName] = useState(port.name || "")
     const [autoOpen, setAutoOpen] = useState(Boolean(port.isAutoOpen))
 
@@ -19,11 +20,6 @@ const SerialPortItem = observer(({port}) => {
     const changeName = (value) => {
         setPortName(value)
         port.setName(value)
-    }
-
-    const changeBaudRate = (value) => {
-        setBaudRateInput(value)
-        port.setBaudRate(Number(value))
     }
 
     const changeAutoOpen = (value) => {
@@ -50,10 +46,12 @@ const SerialPortItem = observer(({port}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>BaudRate</InputGroup.Text>
-                        <Form.Control type="number" min="1" max="5000000"
-                            onChange={(e) => changeBaudRate(e.target.value)}
+                        <Form.Control type="number" min="1" max="5000000" step="1" required
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setBaudRate, port.setBaudRate, parseInt)
+                            }
                             disabled={port.isConnected || port.isConnecting}
-                            value={baudRateInput}
+                            value={baudRate}
                             placeholder="115200"
                         />
                     </InputGroup>

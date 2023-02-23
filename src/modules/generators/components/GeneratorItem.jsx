@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, ButtonGroup, Card, Container, Form, InputGroup} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
-import {setTargetInvalid, setTargetValid} from "../../../shared/utils";
+import {changeNumberWithValidation} from "../../../shared/utils";
 
 const GeneratorItem = observer(({generator}) => {
 
@@ -10,22 +10,15 @@ const GeneratorItem = observer(({generator}) => {
     const [lengthData, setLengthData] = useState(generator.lengthData.toString() || "");
     const [delayMs, setDelayMs] = useState(generator.delayMs.toString() || "");
 
-    const changeValue = (target, setStateFunc, setStorageFunc, parseFunc) => {
-        setStateFunc(target.value)
-        if (!target.validity.valid) return setTargetInvalid(target)
-        setTargetValid(target)
-        setStorageFunc(parseFunc(target.value))
-    }
-
     return (
         <Container fluid className="col-12 col-sm-6 col-md-4 col-lg-3 mt-2 p-1">
             <Card>
                 <Card.Body className="row">
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Amplitude</InputGroup.Text>
-                        <Form.Control type="number" min="1" required
-                            onChange={
-                                (e) => changeValue(e.target, setAmplitude, generator.setAmplitude, parseFloat)
+                        <Form.Control type="number" min="1" step="any" required
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setAmplitude, generator.setAmplitude, parseFloat)
                             }
                             placeholder={generator.amplitude}
                             value={amplitude}
@@ -33,9 +26,9 @@ const GeneratorItem = observer(({generator}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Frequency</InputGroup.Text>
-                        <Form.Control type="number" min="0" required
-                            onChange={
-                                (e) => changeValue(e.target, setFrequency, generator.setFrequency, parseFloat)
+                        <Form.Control type="number" min="0" step="any" required
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setFrequency, generator.setFrequency, parseFloat)
                             }
                             placeholder={generator.frequency}
                             value={frequency}
@@ -43,9 +36,9 @@ const GeneratorItem = observer(({generator}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Length</InputGroup.Text>
-                        <Form.Control type="number" min="1" required
-                            onChange={
-                                (e) => changeValue(e.target, setLengthData, generator.setLengthData, parseInt)
+                        <Form.Control type="number" min="1" step="1" required
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setLengthData, generator.setLengthData, parseInt)
                             }
                             placeholder={generator.lengthData}
                             value={lengthData}
@@ -53,9 +46,9 @@ const GeneratorItem = observer(({generator}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Delay (Ms)</InputGroup.Text>
-                        <Form.Control type="number" min="1" required
-                            onChange={
-                                (e) => changeValue(e.target, setDelayMs, generator.setDelayMs, parseInt)
+                        <Form.Control type="number" min="1" step="1" required
+                            onChange={(e) =>
+                                changeNumberWithValidation(e.target, setDelayMs, generator.setDelayMs, parseInt)
                             }
                             placeholder={generator.delayMs}
                             value={delayMs}
