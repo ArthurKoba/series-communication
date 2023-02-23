@@ -1,32 +1,28 @@
 import React, {useState} from 'react';
 import {observer} from "mobx-react-lite";
-import {Button, ButtonGroup, Card, Form, InputGroup} from "react-bootstrap";
+import {Button, ButtonGroup, Card, Container, Form, InputGroup} from "react-bootstrap";
 
-import {checkBaudRate} from "../store/serialPortStorage";
 
 const SerialPortItem = observer(({port}) => {
-
-    const [isBaudRateValid, setBaudRateValid] = useState(checkBaudRate(port.baudRate))
-    const [baudRateInput, setBaudRateInput] = useState(port.baudRate || "")
+    const [baudRateInput, setBaudRateInput] = useState(port.baudRate.toString())
+    const [portName, setPortName] = useState(port.name || "")
 
     const state = port.isConnected? "Connected" : port.isConnecting? "Connecting" : "Disconnected"
 
     const getStateVariantButton = () => {
-        let state = "outline-"
-        if (port.isConnected) state += "success"
-        else if (port.isConnecting) state += "warning"
-        else state += "danger"
-        return state
+        if (port.isConnected) return "success"
+        else if (port.isConnecting) return "warning"
+        else return "danger"
     }
 
-    const changeBaudRate = (event) => {
-        setBaudRateInput(event.target.value)
-        let value = Number(event.target.value)
-        let isValide = checkBaudRate(value)
-        setBaudRateValid(isValide)
-        if (isValide !== true) return
-        port.setBaudRate(value)
-        if (event.type === "blur") setBaudRateValid(null)
+    const changeName = (value) => {
+        setPortName(value)
+        port.setName(value)
+    }
+
+    const changeBaudRate = (value) => {
+        setBaudRateInput(value)
+        port.setBaudRate(Number(value))
     }
 
     return (
