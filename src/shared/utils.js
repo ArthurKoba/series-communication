@@ -8,6 +8,16 @@ export function isSmallScreen() {
     return width < 768
 }
 
+export function setTargetValid(target) {
+    target.classList.remove("is-invalid")
+    target.classList.add("is-valid")
+}
+
+export function setTargetInvalid(target) {
+    target.classList.remove("is-valid")
+    target.classList.add("is-invalid")
+}
+
 export function alertWarningVirtualSerialPort() {
 
     const alertText = "At the time of the development of this software, " +
