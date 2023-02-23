@@ -7,13 +7,13 @@ import SerialPortItem from "./SerialPortItem";
 const SerialPortList = observer(({serialPorts}) => {
 
     if (!serialPorts.length) return (
-        <Container fluid className="text-center mt-3">
+        <Container fluid className="text-center mt-1">
             <h2>Serial ports are not installed or are being loaded....</h2>
         </Container>
     )
 
     return (
-        <Container fluid className="row justify-content-evenly mt-5">
+        <Container fluid className="row justify-content-evenly mt-1 p-1">
             {
                 serialPorts.map((port, i) => <SerialPortItem key={i} port={port}/>)
             }
