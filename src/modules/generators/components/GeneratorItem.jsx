@@ -1,105 +1,79 @@
 import React, {useState} from 'react';
 import {Button, ButtonGroup, Card, Container, Form, InputGroup} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
+import {setTargetInvalid, setTargetValid} from "../../../shared/utils";
 
 const GeneratorItem = observer(({generator}) => {
 
-    const [frequency, setFrequency] = useState("");
-    const [frequencyInvalid, setFrequencyInvalid] = useState(false)
+    const [frequency, setFrequency] = useState(generator.frequency.toString() || "");
+    const [amplitude, setAmplitude] = useState(generator.amplitude.toString() || "");
+    const [lengthData, setLengthData] = useState(generator.lengthData.toString() || "");
+    const [delayMs, setDelayMs] = useState(generator.delayMs.toString() || "");
 
-    const [amplitude, setAmplitude] = useState("");
-    const [amplitudeInvalid, setAmplitudeInvalid] = useState(false)
-
-    const [lengthData, setLengthData] = useState("");
-    const [lengthDataInvalid, setLengthDataInvalid] = useState(false)
-
-    const [delayMs, setDelayMs] = useState("");
-    const [delayMsInvalid, setDelayMsInvalid] = useState(false)
-
-    const handlerSetFrequency = (value) => {
-        setFrequency(value)
-        value = parseFloat(value)
-        if (isNaN(value) || value === 0.0) return setFrequencyInvalid(true)
-        setFrequencyInvalid(false)
-        generator.setFrequency(value)
-    }
-
-    const handlerSetLengthData = (value) => {
-        setLengthData(value)
-        value = parseInt(value)
-        if (isNaN(value) || value === 0) return setLengthDataInvalid(true)
-        setLengthDataInvalid(false)
-        generator.setLengthData(value)
-    }
-
-    const handlerSetDelay = (value) => {
-        setDelayMs(value)
-        value = parseInt(value)
-        if (isNaN(value) || value === 0) return setDelayMsInvalid(true)
-        setDelayMsInvalid(false)
-        generator.setDelayMs(value)
-    }
-
-    const handlerSetAmplitude = (value) => {
-        setAmplitude(value)
-        value = parseInt(value)
-        if (isNaN(value) || value < 1) return setAmplitudeInvalid(true)
-        setAmplitudeInvalid(false)
-        generator.setAmplitude(value)
+    const changeValue = (target, setStateFunc, setStorageFunc, parseFunc) => {
+        setStateFunc(target.value)
+        if (!target.validity.valid) return setTargetInvalid(target)
+        setTargetValid(target)
+        setStorageFunc(parseFunc(target.value))
     }
 
     return (
-        <Container fluid className="col col-sm-6 col-md-4 col-lg-3 mt-2 p-1">
+        <Container fluid className="col-12 col-sm-6 col-md-4 col-lg-3 mt-2 p-1">
             <Card>
                 <Card.Body className="row">
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Amplitude</InputGroup.Text>
-                        <Form.Control type="number"
-                            onChange={(e) => handlerSetAmplitude(e.target.value)}
+                        <Form.Control type="number" min="1" required
+                            onChange={
+                                (e) => changeValue(e.target, setAmplitude, generator.setAmplitude, parseFloat)
+                            }
                             placeholder={generator.amplitude}
-                            isInvalid={amplitudeInvalid}
                             value={amplitude}
                         />
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Frequency</InputGroup.Text>
-                        <Form.Control type="number"
-                            onChange={(e) => handlerSetFrequency(e.target.value)}
+                        <Form.Control type="number" min="0" required
+                            onChange={
+                                (e) => changeValue(e.target, setFrequency, generator.setFrequency, parseFloat)
+                            }
                             placeholder={generator.frequency}
-                            isInvalid={frequencyInvalid}
                             value={frequency}
                         />
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Length</InputGroup.Text>
-                        <Form.Control type="number"
-                            onChange={(e) => handlerSetLengthData(e.target.value)}
+                        <Form.Control type="number" min="1" required
+                            onChange={
+                                (e) => changeValue(e.target, setLengthData, generator.setLengthData, parseInt)
+                            }
                             placeholder={generator.lengthData}
-                            isInvalid={lengthDataInvalid}
                             value={lengthData}
                         />
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>Delay (Ms)</InputGroup.Text>
-                        <Form.Control type="number"
-                            onChange={(e) => handlerSetDelay(e.target.value)}
+                        <Form.Control type="number" min="1" required
+                            onChange={
+                                (e) => changeValue(e.target, setDelayMs, generator.setDelayMs, parseInt)
+                            }
                             placeholder={generator.delayMs}
-                            isInvalid={delayMsInvalid}
                             value={delayMs}
                         />
                     </InputGroup>
-
                     <ButtonGroup className="mb-2">
                         <Button variant={generator.isEnabled? "outline-success": "success"} size="sm"
-                                disabled={generator.isEnabled}
-                                active={generator.isEnabled}
-                                onClick={() => generator.enable()}>
+                            disabled={generator.isEnabled}
+                            active={generator.isEnabled}
+                            onClick={() => generator.enable()}
+                        >
                             Enable
                         </Button>
                         <Button variant={!generator.isEnabled? "outline-primary": "primary"}
-                                size="sm" disabled={!generator.isEnabled}
-                                active={!generator.isEnabled}
-                                onClick={() => generator.disable()}>
+                            size="sm" disabled={!generator.isEnabled}
+                            active={!generator.isEnabled}
+                            onClick={() => generator.disable()}
+                        >
                             Disable
                         </Button>
                     </ButtonGroup>
