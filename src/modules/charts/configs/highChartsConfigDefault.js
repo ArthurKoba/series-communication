@@ -1,6 +1,9 @@
+import './highcharts.scss'
+
 export const defaultConfigHighCharts = {
     accessibility: {enabled: false},
     chart: {
+        // styledMode: true,
         animation: false,
         zoomType: 'x',
         panning: true,
