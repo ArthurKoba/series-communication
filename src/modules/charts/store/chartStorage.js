@@ -5,7 +5,7 @@ import {defaultConfigHighCharts} from "../configs/highChartsConfigDefault"
 
 
 class ChartStorage {
-    chart = null
+    chart = undefined
     chartConfig = {...defaultConfigHighCharts}
     availableDataNames = []
     fps = 0
@@ -70,6 +70,15 @@ class ChartStorage {
         }
     }
 
+    /**
+     * The Promise of drawing data on the graph. An object with a string type of data and an array of numbers is accepted.
+     * If at the moment the data is `already drawn`, the `promise will stop performing` at the expense of `this.isBusy`.
+     * This promise also `calculates the FPS` graphics.
+     * @param {string} dataName
+     * @param {number[]} data
+     * @public
+     * @returns {Promise<void>}
+     */
     async updateData({dataName, data}) {
         if (dataName && !this.availableDataNames.includes(dataName))
             this.availableDataNames.push(dataName)
