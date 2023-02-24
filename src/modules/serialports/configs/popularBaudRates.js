@@ -8,3 +8,15 @@ export const popularBaudRates = [
     76800, 115200, 230400, 250000, 460800, 500000, 576000,
     921600, 1000000, 2000000
 ]
+
+/**
+ * Minimum Serial Port Speed
+ * @type {number}
+ */
+export const minBaudRate = Math.min(...popularBaudRates)
+
+/**
+ * Maximum Serial Port Speed
+ * @type {number}
+ */
+export const maxBaudRate = Math.max(...popularBaudRates)
