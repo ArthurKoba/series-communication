@@ -1,5 +1,5 @@
 /**
- * A function that returns the user's screen size.
+ * A function that returns the `user's screen size`.
  * @returns {{width: number, height: number}}
  */
 export function getWindowDimensions() {
@@ -9,7 +9,7 @@ export function getWindowDimensions() {
 
 /**
  * A function that checks the size of the screen width,
- * if it is less than 768 pixels then the screen is considered small.
+ * if it is `less than 768 pixels` then the screen is considered small.
  * @returns {boolean}
  */
 export function isSmallScreen() {
@@ -18,7 +18,7 @@ export function isSmallScreen() {
 }
 
 /**
- * Sets HTMLInputElement to the Bootstrap class is-valid and removes the is-invalid class.
+ * Sets `HTMLInputElement` to the `Bootstrap` class `is-valid` and removes the `is-invalid` class.
  * @param {HTMLInputElement} target
  */
 export function setTargetValid(target) {
@@ -27,7 +27,7 @@ export function setTargetValid(target) {
 }
 
 /**
- * Sets HTMLInputElement to the Bootstrap class is-invalid and removes is-valid the class.
+ * Sets `HTMLInputElement` to the `Bootstrap` class `is-invalid` and removes `is-valid` the class.
  * @param {HTMLInputElement} target
  */
 export function setTargetInvalid(target) {
