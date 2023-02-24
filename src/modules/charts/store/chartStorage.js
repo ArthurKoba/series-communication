@@ -42,12 +42,25 @@ class ChartStorage {
         }
     }
 
+
+    /**
+     * The method is run after the component is mounted in the DOM tree in the useEffect function.
+     * The code initializes the highcharts object of the chart in the container if the chart has not yet been created.
+     * @param {HTMLElement} containerNode
+     */
     setContainer(containerNode) {
         if (this.chart) return
-        this.chart = new HighCharts.chart(containerNode, this.chartConfig)
+        this.chart = new HighCharts.chart(containerNode, this.chartConfig, () => null)
         this.startTaskDestroyingInvisibleGraph().then(() => null)
     }
 
+    /**
+     * This function is necessary to eliminate the memory leak. The chart will continue to be drawn in the container
+     * even if the chart component has been removed from the DOM tree. Since React does not provide a method to track
+     * the removal of a component (maybe I'm wrong) from the DOM tree, the `HTMLElement.isConnected` method allows
+     * to check if the object is connected to the DOM. If the condition is not met, the graph is destroyed and its
+     *  container is permanently GC.
+     */
     async startTaskDestroyingInvisibleGraph() {
         while (this.chart) {
             await new Promise((resolve) => setTimeout(resolve, 1000))
