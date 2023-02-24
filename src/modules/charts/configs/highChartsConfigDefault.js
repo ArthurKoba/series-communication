@@ -5,21 +5,26 @@ export const defaultConfigHighCharts = {
     chart: {
         // styledMode: true,
         animation: false,
-        zoomType: 'x',
-        panning: true,
-        panKey: 'shift',
+        reflow: false,
+        showAxes: true,
+        panKey: "shift",
+        panning: {
+            enabled: true,
+            type: 'x'
+        },
+        zooming: {
+            type: 'x',
+        },
         type: 'column',
     },
     boost: {
         allowForce: true,
-        turboThreshold: 5000,
         enabled: true,
         pixelRatio: 1,
         seriesThreshold: 2,
         useGPUTranslations: true,
         usePreallocated: false,
     },
-
     title: {text: 'Chart'},
     // subtitle: {text: 'Using the Boost module'},
     tooltip: {
