@@ -43,8 +43,18 @@ class ChartStorage {
     }
 
     setContainer(containerNode) {
-        if (this.chart) this.chart.destroy()
+        if (this.chart) return
         this.chart = new HighCharts.chart(containerNode, this.chartConfig)
+        this.startTaskDestroyingInvisibleGraph().then(() => null)
+    }
+
+    async startTaskDestroyingInvisibleGraph() {
+        while (this.chart) {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+            if (this.chart && !this.chart.container.isConnected) {
+                this.chart = this.chart.destroy()
+            }
+        }
     }
 
     async updateData({dataName, data}) {
