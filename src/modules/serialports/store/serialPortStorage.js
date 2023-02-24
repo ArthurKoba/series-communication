@@ -1,5 +1,6 @@
 import {action, makeAutoObservable} from "mobx";
 import {SerialReader} from "../serialReader";
+import {minBaudRate} from "../configs/popularBaudRates";
 
 
 class SerialPortItemStorage {
@@ -12,7 +13,7 @@ class SerialPortItemStorage {
         this.manager = configs.manager
         this.name = configs?.name || "Serial " + configs.id
         this.isAutoOpen = configs?.isAutoOpen || false
-        this.baudRate = configs?.baudRate || 115200
+        this.baudRate = configs?.baudRate || minBaudRate
         this.usbProductId = configs?.usbProductId
         this.usbVendorId = configs?.usbVendorId
         this.port = portObject

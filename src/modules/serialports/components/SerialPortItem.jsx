@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import {observer} from "mobx-react-lite";
+
 import {Button, ButtonGroup, Card, Container, Form, InputGroup} from "react-bootstrap";
 import {changeNumberWithValidation} from "../../../shared/utils";
+import PopularBaudRates from "./ui/DataListPopularBaudRates";
+import {minBaudRate, maxBaudRate} from "../configs/popularBaudRates";
 
 
 const SerialPortItem = observer(({port}) => {
-    const [baudRate, setBaudRate] = useState(port.baudRate.toString() || "")
+    const [baudRate, setBaudRate] = useState(port.baudRate || "")
     const [portName, setPortName] = useState(port.name || "")
     const [autoOpen, setAutoOpen] = useState(Boolean(port.isAutoOpen))
 
@@ -27,7 +30,7 @@ const SerialPortItem = observer(({port}) => {
         port.setAutoOpen(value)
     }
 
-     return (
+    return (
         <Container className="p-1 col-12 col-md-6 col-lg-4">
             <Card className={"border border-" + getStateVariantButton()}>
                 <Card.Header className="d-grid gap-2">
@@ -46,14 +49,16 @@ const SerialPortItem = observer(({port}) => {
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <InputGroup.Text>BaudRate</InputGroup.Text>
-                        <Form.Control type="number" min="1" max="5000000" step="1" required
+                        <Form.Control type="number" list="popular-baud-rates" required
+                            min={minBaudRate.toString()} max={maxBaudRate.toString()} step="1"
                             onChange={(e) =>
                                 changeNumberWithValidation(e.target, setBaudRate, port.setBaudRate, parseInt)
                             }
                             disabled={port.isConnected || port.isConnecting}
-                            value={baudRate}
+                            value={baudRate? baudRate.toString() : ""}
                             placeholder="115200"
                         />
+                        <PopularBaudRates id="popular-baud-rates"/>
                     </InputGroup>
                     <InputGroup size="sm" className="mb-2">
                         <Form.Check
@@ -66,7 +71,7 @@ const SerialPortItem = observer(({port}) => {
                     <ButtonGroup className="mb-2">
                         <Button size="sm"
                             variant={port.isConnected? "outline-success": "success"}
-                            disabled={port.isConnecting || port.isConnected}
+                            disabled={port.isConnecting || port.isConnected || baudRate < minBaudRate}
                             active={!port.isConnected}
                             onClick={() => port.connect()}
                         >
