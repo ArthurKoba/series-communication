@@ -1,6 +1,5 @@
 import {action, makeAutoObservable} from "mobx";
-import {cobsDecoder} from "../../cobs/decoder";
-import {serialPortInteraction} from "../../serialPortInteraction";
+import {serialPortInteraction, cobsDecoder} from "../../serialPortInteraction";
 
 
 class DataStream {

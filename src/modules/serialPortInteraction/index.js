@@ -1,5 +1,6 @@
 import {SerialPortInteraction} from './serialPortInteraction'
 import {PacketDataType} from './packetDataType'
+import {cobsDecoder, CobsDecoder} from "./cobsDecoder";
 
 const serialPortInteraction = new SerialPortInteraction()
 
@@ -9,7 +10,9 @@ serialPortInteraction.setPacketsNames({
 })
 
 export {
+    CobsDecoder,
+    PacketDataType,
     SerialPortInteraction,
+    cobsDecoder,
     serialPortInteraction,
-    PacketDataType
 }
