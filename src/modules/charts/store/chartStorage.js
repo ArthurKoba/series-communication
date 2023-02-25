@@ -24,8 +24,8 @@ class ChartStorage {
          * @type {FftTransform || undefined}
          */
         this.strategy = StrategyFabric.getStrategyWithConfig(configs?.strategy)
-        this.chartConfig.yAxis.max = configs?.yAxisMax || undefined
-        this.chartConfig.yAxis.min = configs?.yAxisMin || undefined
+        this.chartConfig.yAxis.max = configs?.yAxisMax ?? undefined
+        this.chartConfig.yAxis.min = configs?.yAxisMin ?? undefined
         this.selectedDataName && this.availableDataNames.push(this.selectedDataName)
         this.manager = manager
         this.updateData = this.updateData.bind(this)

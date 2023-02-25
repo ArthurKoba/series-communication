@@ -10,8 +10,8 @@ import {changeNumberWithValidation} from "../../../../shared/utils";
 import SelectStrategy from "./SelectStrategy";
 
 
-const getChartMaxAxisY = (chart) => chart.chartConfig.yAxis.max? chart.chartConfig.yAxis.max.toString() : ""
-const getChartMinAxisY = (chart) => chart.chartConfig.yAxis.min? chart.chartConfig.yAxis.min.toString() : ""
+const getChartMaxAxisY = (chart) => chart.chartConfig.yAxis.max !== undefined? chart.chartConfig.yAxis.max.toString() : ""
+const getChartMinAxisY = (chart) => chart.chartConfig.yAxis.min !== undefined? chart.chartConfig.yAxis.min.toString() : ""
 
 export const ModalChartConfiguration = ({chart, show, handleClose}) => {
     const [name, setName] = useState(chart.chartConfig.title.text || "")
