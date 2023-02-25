@@ -7,6 +7,7 @@ import SelectDataStreamType from "./SelectDataStreamType";
 import SelectDataStream from "./SelectDataStream";
 import SelectDataName from "./SelectDataName";
 import {changeNumberWithValidation} from "../../../../shared/utils";
+import SelectStrategy from "./SelectStrategy";
 
 
 const getChartMaxAxisY = (chart) => chart.chartConfig.yAxis.max? chart.chartConfig.yAxis.max.toString() : ""
@@ -82,7 +83,10 @@ export const ModalChartConfiguration = ({chart, show, handleClose}) => {
                         <InputGroup.Text>DataName</InputGroup.Text>
                         <SelectDataName chart={chart}/>
                     </InputGroup>
-
+                    <InputGroup size="sm" className="mt-2">
+                        <InputGroup.Text>Transform Strategy</InputGroup.Text>
+                        <SelectStrategy chart={chart}/>
+                    </InputGroup>
                 </Container>
 
                 <ModalRemoveChartButton
