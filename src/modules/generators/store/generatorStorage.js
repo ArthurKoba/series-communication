@@ -2,7 +2,11 @@ import {makeAutoObservable} from "mobx";
 
 class Generator {
 
-    handler = null
+    /**
+     *
+     * @type {function(string, number[]) || undefined}
+     */
+    handler = undefined
     isTaskEnabled = false
 
     constructor(configs) {
@@ -36,7 +40,7 @@ class Generator {
                 let value = Math.sin(this.frequency * index) * this.amplitude
                 data.push(value)
             }
-            if (this.handler) this.handler({dataName: null, data: data})
+            if (this.handler) this.handler("generator", data)
             await new Promise(resolve => setTimeout(resolve, this.delayMs));
         }
         this.isTaskEnabled = false

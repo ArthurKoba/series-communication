@@ -1,7 +1,3 @@
-import {cobsDecoder} from "../cobs/decoder";
-import {serialPortInteraction} from "../serialPortInteraction";
-
-
 /**
  * public
  * @property {SerialPort} port
@@ -10,7 +6,7 @@ export class SerialReader {
 
     /**
      * @private
-     * @type {function({dataName: string, data: number[]}) || undefined}
+     * @type {function(type: string, data: number[]) || undefined}
      */
     #_handler = undefined
 
@@ -20,7 +16,7 @@ export class SerialReader {
 
     /**
      * @public
-     * @param {function({dataName: string, data: number[]}) || undefined} handler
+     * @param {function(resource: string, data: number[]) || undefined} handler
      */
     setHandler = (handler) => this.#_handler = handler
 
@@ -84,33 +80,6 @@ export class SerialReader {
         this._isBusyClosing = false
     }
 
-
-    /**
-     * @param {number[]} buffer
-     * @private
-     */
-    _dataHandler(buffer) {
-
-        /**
-         * @type {number[]}
-         */
-        let cobsData = cobsDecoder.decode(buffer);
-        if (cobsData.length && this.#_handler) {
-            let packet
-            try {
-                packet = serialPortInteraction.parsePacket(cobsData)
-            } catch (e) {
-                console.warn("packet parse failed")
-            }
-            if (packet) this.#_handler({dataName: packet.name, data: packet.data})
-        } else {
-            // todo fix types
-            const byteBuffer = new Uint8Array(buffer, 0, buffer.length)
-            const string = new TextDecoder().decode(byteBuffer)
-            console.log(string)
-        }
-    }
-
     /**
      * Data reading function. It is launched only with an open port and the `negative parameter of this.needStop`.
      * Stop is carried out using the `needStop` variable.
@@ -119,7 +88,6 @@ export class SerialReader {
      * @private
      */
     async _read() {
-        let buffer = []
         this._needStop = null
         while (this._needStop !== true && this.port.readable) {
             if (!this.port.readable.locked) this.reader = this.port.readable.getReader()
@@ -134,13 +102,7 @@ export class SerialReader {
                 console.warn("Serial Reader: ", e.message)
             }
             if (!result || !result.value) continue
-            for (let byte of result.value) {
-                buffer.push(byte)
-                if (byte === cobsDecoder.getDelimiter() || buffer.length > 65536 + 5) {
-                    this._dataHandler(buffer)
-                    buffer = []
-                }
-            }
+            this.#_handler("serial", result.value)
         }
         if (this.port.readable?.locked) this.reader = await this.reader.cancel()
     }
