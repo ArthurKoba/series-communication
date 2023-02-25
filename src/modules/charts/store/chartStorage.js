@@ -2,6 +2,7 @@ import {action, makeAutoObservable} from "mobx";
 import HighCharts from "highcharts"
 
 import {defaultConfigHighCharts} from "../configs/highChartsConfigDefault"
+import {StrategyFabric} from "../strategies";
 
 
 class ChartStorage {
@@ -19,6 +20,10 @@ class ChartStorage {
         this.subscribeDataStreamType = configs?.subscribeDataStreamType || ""
         this.subscribeDataStreamId = configs?.subscribeDataStreamId || ""
         this.selectedDataName = configs?.selectedDataName || ""
+        /**
+         * @type {FftTransform || undefined}
+         */
+        this.strategy = StrategyFabric.getStrategyWithConfig(configs?.strategy)
         this.chartConfig.yAxis.max = configs?.yAxisMax || undefined
         this.chartConfig.yAxis.min = configs?.yAxisMin || undefined
         this.selectedDataName && this.availableDataNames.push(this.selectedDataName)
@@ -35,6 +40,7 @@ class ChartStorage {
             subscribeDataStreamType: this.subscribeDataStreamType,
             subscribeDataStreamId: this.subscribeDataStreamId,
             selectedDataName: this.selectedDataName,
+            strategy: StrategyFabric.getStrategyConfig(this.strategy),
             name: this.chartConfig.title.text,
             type: this.chartConfig.chart.type,
             yAxisMin: this.chartConfig.yAxis.min,
@@ -85,6 +91,7 @@ class ChartStorage {
         if (this.isBusy || !this.chart) return
         if (this.selectedDataName && this.selectedDataName !== dataName) return
         this.isBusy = true
+        if (this.strategy) data = this.strategy.convertData(data)
         let timer = new Date()
         if (this.chart.series.length) this.chart.series[0].setData(data, true)
         else this.chart.addSeries({data: data})
@@ -144,6 +151,10 @@ class ChartStorage {
     })
 
     setDataName = this.saveConfigWrapper((name) => this.selectedDataName = name)
+
+    setStrategy = this.saveConfigWrapper((strategyType) => {
+        this.strategy = StrategyFabric.getStrategyWithType(strategyType)
+    })
 
     updateFps = action((newFps) => this.fps = newFps)
 }
